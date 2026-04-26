@@ -29,8 +29,8 @@ public class FiberConnection {
         Map<Localidad, List<Conexion>> adyacencias = new HashMap<>();
 
         //Inicializar nodos
-        for (Localidad loc : localidades) {
-            adyacencias.put(loc, new ArrayList<>());
+        for (Localidad localidad : localidades) {
+            adyacencias.put(localidad, new ArrayList<>());
         }
 
         //Crear grafo completo 
@@ -61,9 +61,9 @@ public class FiberConnection {
         List<Conexion> todas = new ArrayList<>();
 
         for (List<Conexion> lista : grafo.getAdyacencias().values()) {
-            for (Conexion c : lista) {
-                if (!todas.contains(c)) {
-                    todas.add(c);
+            for (Conexion conexion : lista) {
+                if (!todas.contains(conexion)) {
+                    todas.add(conexion);
                 }
             }
         }

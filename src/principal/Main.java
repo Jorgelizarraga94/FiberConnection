@@ -2,7 +2,7 @@ package principal;
 
 	
 
-	import javax.swing.*;
+import javax.swing.*;
 
 import gui.InterfazDatos;
 	

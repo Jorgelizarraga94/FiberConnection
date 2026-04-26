@@ -71,7 +71,7 @@ public class InterfazDatos extends JFrame {
         this.getContentPane().add(nombreLocalidad);
         
         
-        //Ver Mapa
+        //Boton para ver el Mapa
         JButton btnMapa = new JButton("Ver mapa");
         btnMapa.setBounds(250, 230, 150, 23);
 
@@ -92,6 +92,7 @@ public class InterfazDatos extends JFrame {
         JButton btnAgregar = new JButton("Agregar");
         btnAgregar.setBounds(250, 150, 150, 23);
 
+        //Boton para cargar datos
         btnAgregar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
@@ -134,7 +135,6 @@ public class InterfazDatos extends JFrame {
                         "Grafo construido con " + grafo.obtenerLocalidades().size() + " localidades");
             }
         });
-
         this.getContentPane().add(btnPlanificar);
     }
 }
