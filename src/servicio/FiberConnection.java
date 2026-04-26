@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openstreetmap.gui.jmapviewer.Coordinate;
+
 public class FiberConnection {
 
     private Grafo grafo;
@@ -75,4 +77,29 @@ public class FiberConnection {
     public List<Localidad> obtenerLocalidades() {
         return new ArrayList<>(grafo.getAdyacencias().keySet());
     }
+
+	public static boolean estaConectado(Coordinate coordenada1, Coordinate coordenada2) {
+		boolean conectado = false;
+		return conectado;
+	}
+
+	public static int tamanio(Grafo grafo) {
+		int tamanio = 0;
+		return tamanio;
+	}
+
+	public static boolean verificarDistintosTamanios(Grafo grafo) {
+		boolean tamanioCorrecto = false;
+		return tamanioCorrecto;
+	}
+
+	public static boolean verificarNodoLocalidad(Grafo grafo) {
+		boolean nodoCorrecto = false;
+		return nodoCorrecto;
+	}
+
+	public static boolean verificarAristaConexion(Grafo grafo, int nodo1, int nodo2) {
+		boolean conexionCorrecta = false;
+		return conexionCorrecta;
+	}
 }

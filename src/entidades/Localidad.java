@@ -1,6 +1,9 @@
 package entidades;
 
 import java.util.Objects;
+
+import javax.swing.JTextField;
+
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 
 /**
@@ -23,7 +26,11 @@ public class Localidad {
     public Localidad() {
     }
 
-    public String getNombre() {
+    public Localidad(String nombre2, JTextField prov, double lat, double lon) {
+    	
+	}
+
+	public String getNombre() {
         return nombre;
     }
 
@@ -76,15 +83,13 @@ public class Localidad {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Localidad localidad = (Localidad) o;
-        return Double.compare(localidad.latitud, latitud) == 0 &&
-                Double.compare(localidad.longitud, longitud) == 0 &&
-                Objects.equals(nombre, localidad.nombre) &&
-                Objects.equals(provincia, localidad.provincia);
+        Localidad that = (Localidad) o;
+        return Objects.equals(nombre, that.nombre) &&
+               Objects.equals(provincia, that.provincia);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nombre, provincia, latitud, longitud);
+        return Objects.hash(nombre, provincia);
     }
 }
