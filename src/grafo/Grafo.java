@@ -48,22 +48,22 @@ public class Grafo {
         return adyacencias.get(l);
     }
 
-	public void agregarConexion(int nodo1, int nodo2, double peso) {
+	public void agregarConexion(Localidad localidad1, Localidad localidad2, double peso) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public int obtenerPeso(int nodo1, int nodo2) {
+	public int obtenerPeso(Localidad localidad1, Localidad localidad2) {
 		int pesoConexion = 0;
 		return pesoConexion;
 	}
 
-	public void eliminarConexion(int nodo1, int nodo2) {
+	public void eliminarConexion(Localidad localidad1, Localidad localidad2) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void eliminarVariasAristasConexiones(boolean[][] marcados) {
+	public void eliminarVariasAristasConexiones(Map<Localidad, Map<Localidad, Boolean>> marcados) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -79,7 +79,7 @@ public class Grafo {
 	}
 
 	public Array resultadoMatriz() {
-		ArrayList <adyacencias> resultadoMatriz = new ArrayList <adyacencias>();
+//		ArrayList <> resultadoMatriz = new ArrayList <>();
 		return null;
 	}
 

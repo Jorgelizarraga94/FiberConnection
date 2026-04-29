@@ -14,9 +14,11 @@ import org.openstreetmap.gui.jmapviewer.Coordinate;
 public class FiberConnection {
 
     private Grafo grafo;
+    private static Grafo grafoTest;
 
     public FiberConnection() {
         this.grafo = new Grafo();
+        this.grafoTest = new Grafo();
     }
 
     public Grafo getGrafo() {
@@ -51,6 +53,8 @@ public class FiberConnection {
        
         grafo.setAdyacencias(adyacencias);
     }
+    
+    
 
     
     //Devuelve todas las conexiones del grafo en una sola lista
@@ -98,8 +102,87 @@ public class FiberConnection {
 		return nodoCorrecto;
 	}
 
-	public static boolean verificarAristaConexion(Grafo grafo, int nodo1, int nodo2) {
+	public static boolean verificarAristaConexion(Grafo grafo, Localidad localidad1, Localidad localidad2) {
 		boolean conexionCorrecta = false;
 		return conexionCorrecta;
 	}
-}
+
+	public static Integer verificarVecinos(Grafo grafo, Localidad localidad) {
+		int cantVecinosActual = 0;
+		return cantVecinosActual;
+	}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// 
+/// 
+/// 
+/// 
+/// 
+/// 
+/// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	
+    public static List<Localidad> construirGrafoTest(List<Localidad> localidades) {
+
+        Map<Localidad, List<Conexion>> adyacencias = new HashMap<>();
+
+        //Inicializar nodos
+        for (Localidad localidad : localidades) {
+            adyacencias.put(localidad, new ArrayList<>());
+        }
+
+        //Crear grafo completo 
+        for (int i = 0; i < localidades.size(); i++) {
+            for (int j = i + 1; j < localidades.size(); j++) {
+
+                Localidad origen = localidades.get(i);
+                Localidad destino = localidades.get(j);
+
+                Conexion conexion = new Conexion(origen, destino);
+
+                //agregar en ambos sentidos (grafo no dirigido)
+                adyacencias.get(origen).add(conexion);
+                adyacencias.get(destino).add(conexion);
+            }
+        }
+
+       
+        grafoTest.setAdyacencias(adyacencias);
+        return grafoTest.obtenerLocalidades();
+    }
+    public static List<Localidad> construirGrafoTest(List<Localidad> localidades, List<Conexion> conexiones) {
+
+        Map<Localidad, List<Conexion>> adyacencias = new HashMap<>();
+
+        //Inicializar nodos
+        for (Localidad localidad : localidades) {
+            adyacencias.put(localidad, new ArrayList<>());
+        }
+
+        //Crear grafo completo 
+        for (int i = 0; i < localidades.size(); i++) {
+            for (int j = i + 1; j < localidades.size(); j++) {
+
+                Localidad origen = localidades.get(i);
+                Localidad destino = localidades.get(j);
+
+                // Todavía no lo hice pero es necesario cambiar la lógica de las conexiones para que reciba las conexiones del parámetro y solo cree esas 
+                Conexion conexion = new Conexion(origen, destino);
+
+                //agregar en ambos sentidos (grafo no dirigido)
+                adyacencias.get(origen).add(conexion);
+                adyacencias.get(destino).add(conexion);
+            }
+        }
+
+       
+        grafoTest.setAdyacencias(adyacencias);
+        return grafoTest.obtenerLocalidades();
+    }
+
+	public static boolean estaConectado(List<Localidad> grafoConexionesListado, Localidad localidad1,
+			Localidad localidad2) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	}
