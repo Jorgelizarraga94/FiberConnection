@@ -13,7 +13,7 @@ import servicio.LogicaMapa;
 			JMapViewer mapa = new JMapViewer();
 			FiberConnection fiberConnection = new FiberConnection();
 			LogicaMapa logicaMapa = new LogicaMapa();
-			InterfazDatos interfazDatos = new InterfazDatos(mapa, fiberConnection);
+			InterfazDatos interfazDatos = new InterfazDatos(mapa, fiberConnection, logicaMapa);
 			interfazDatos.setVisible(true);
 		}
 	}
