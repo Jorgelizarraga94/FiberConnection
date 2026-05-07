@@ -1,7 +1,11 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,14 +17,11 @@ import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
+
 import entidades.Localidad;
 import servicio.FiberConnection;
 import servicio.LogicaMapa;
-
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.awt.event.ActionEvent;
+import servicio.ManejoDatos;
 
 public class InterfazAgregarLocalidad extends JFrame {
 
@@ -105,21 +106,13 @@ public class InterfazAgregarLocalidad extends JFrame {
 
 					//List<Localidad> acumuladas = fiberConnection.obtenerLocalidades();
 					
-					// 1. Obtenemos el modelo de la tabla existente y le hacemos un "cast"
-					DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-
-					// 2. Creamos un array con los datos (deben coincidir con el número de columnas)
-					Object[] nuevaFila = {loc.getLatitud(), loc.getLongitud(), loc.getProvincia(), loc.getNombre()};
-
-					// 3. Agregamos la fila al modelo
-					modelo.addRow(nuevaFila);
-
+					//Datos en Tabla
+					cargarTabla(lat, lon, provincia, nombre);
+					ManejoDatos.guardarDatos(lat, lon, provincia, nombre);
+					
 					localidades.add(loc);
 
 					fiberConnection.construirGrafo(localidades);
-
-					mapaLocalidadesJMapViewer.removeAllMapMarkers();
-					mapaLocalidadesJMapViewer.removeAllMapPolygons();
 
 					logicaMapa.dibujarGrafo(fiberConnection.obtenerLocalidades(),
 							fiberConnection.obtenerTodasLasConexiones(), mapaLocalidadesJMapViewer);
@@ -137,5 +130,11 @@ public class InterfazAgregarLocalidad extends JFrame {
 		});
 		btnAgregarLocalidad.setBounds(109, 196, 210, 34);
 		panel.add(btnAgregarLocalidad);
+	}
+	
+	public void cargarTabla(double latitud, double longitud, String provincia, String localidad) {
+		DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+		Object[] nuevaFila = {latitud, longitud, provincia, localidad};
+		modelo.addRow(nuevaFila);
 	}
 }
