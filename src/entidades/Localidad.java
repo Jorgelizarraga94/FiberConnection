@@ -23,12 +23,6 @@ public class Localidad {
         this.longitud = longitud;
     }
 
-    public Localidad() {
-    }
-
-    public Localidad(String nombre2, JTextField prov, double lat, double lon) {
-    	
-	}
 
 	public String getNombre() {
         return nombre;
@@ -65,7 +59,7 @@ public class Localidad {
     /**
      * Devuelve un objeto Coordinate (útil para JMapViewer).
      */
-    public Coordinate toCoordinate() {
+    public Coordinate getCordenadasLocalidad() {
         return new Coordinate(latitud, longitud);
     }
 

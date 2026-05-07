@@ -14,7 +14,7 @@ import grafo.Grafo;
 import servicio.FiberConnection;
 
 public class GrafoTest{
-	Localidad sanMiguel = new Localidad("San Miguel", "Buenos Aires", -34.5333,  -58.7167);
+	Localidad sanMiguel = new Localidad("San Miguel", "Buenos Aires", -34.543159,  -58.711774);
 	Localidad bellaVista = new Localidad("Bella Vista", "Buenos Aires", -34.5333, -58.6667);
 	Localidad joseCPaz = new Localidad("Jose C Paz", "Buenos Aires",  -34.51541, -58.76813);
 	Localidad cordobaCapital = new Localidad("Cordoba Capital", "Cordoba", -31.416666666667, -64.183333333333);

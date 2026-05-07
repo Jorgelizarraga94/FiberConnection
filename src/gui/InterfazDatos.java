@@ -3,138 +3,151 @@ package gui;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-
 import entidades.Localidad;
 import grafo.Grafo;
 import servicio.FiberConnection;
+import servicio.LogicaMapa;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.DropMode;
+import java.awt.ComponentOrientation;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.JComboBox;
+import java.awt.BorderLayout;
+import javax.swing.border.MatteBorder;
+import java.awt.Color;
+import java.awt.Font;
 
 public class InterfazDatos extends JFrame {
+	private FiberConnection fiberConnection;
+	private LogicaMapa logicaMapa;
+	private JMapViewer mapaLocalidadesJMapViewer;
+	private JTable table;
+	private JTextField textField;
 
-    private JTextField latitud;
-    private JTextField longitud;
-    private JTextField prov;
-    private JTextField nombreLocalidad;
+	public InterfazDatos(JMapViewer mapa, FiberConnection fiberConnection, LogicaMapa logicaMapa) {
+		this.logicaMapa = logicaMapa;
+		this.fiberConnection = fiberConnection;
+		this.mapaLocalidadesJMapViewer = mapa;
+		initialize();
+	}
 
-    private List<Localidad> localidades = new ArrayList<>();
+	private void initialize() {
 
-    public InterfazDatos() {
-        initialize();
-    }
+		this.setBounds(100, 100, 1366, 768);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.getContentPane().setLayout(null);
 
-    private void initialize() {
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		panel_1.setBounds(26, 21, 1110, 248);
+		getContentPane().add(panel_1);
+		panel_1.setLayout(null);
 
-        this.setBounds(100, 100, 450, 300);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.getContentPane().setLayout(null);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 11, 1072, 226);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		panel_1.add(scrollPane);
 
-        JLabel titulo = new JLabel("Carga de Localidades");
-        titulo.setBounds(10, 10, 200, 20);
-        this.getContentPane().add(titulo);
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+				new Object[][] { { null, null, null, null }, { null, null, null, null }, { null, null, null, null },
+						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null },
+						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null },
+						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null },
+						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null },
+						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null },
+						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null },
+						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null },
+						{ null, null, null, null }, },
+				new String[] { "Latitud", "Longitud", "Provincia", "Localidad" }));
+		scrollPane.setViewportView(table);
 
-        JLabel lblLat = new JLabel("Latitud");
-        lblLat.setBounds(10, 60, 80, 14);
-        this.getContentPane().add(lblLat);
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
+		panel_2.setBounds(1161, 21, 122, 248);
+		getContentPane().add(panel_2);
+		panel_2.setLayout(null);
 
-        JLabel lblLon = new JLabel("Longitud");
-        lblLon.setBounds(10, 90, 80, 14);
-        this.getContentPane().add(lblLon);
+		JButton btnAgregar = new JButton("Agregar");
+		btnAgregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InterfazAgregarLocalidad interfazAgregarLocalidad = new InterfazAgregarLocalidad(
+						mapaLocalidadesJMapViewer, fiberConnection, logicaMapa);
+				interfazAgregarLocalidad.setVisible(true);
+			}
+		});
+		btnAgregar.setBounds(10, 11, 102, 34);
+		panel_2.add(btnAgregar);
 
-        JLabel lblProv = new JLabel("Provincia");
-        lblProv.setBounds(10, 120, 80, 14);
-        this.getContentPane().add(lblProv);
+		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnEliminar.setBounds(10, 61, 102, 34);
+		panel_2.add(btnEliminar);
 
-        JLabel lblNom = new JLabel("Localidad");
-        lblNom.setBounds(10, 150, 80, 14);
-        this.getContentPane().add(lblNom);
+		JPanel panel = new JPanel();
+		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
+		panel.setBounds(36, 311, 1243, 366);
+		getContentPane().add(panel);
+		panel.setLayout(null);
 
-        latitud = new JTextField();
-        latitud.setBounds(100, 60, 120, 20);
-        this.getContentPane().add(latitud);
+		JPanel panel_3 = new JPanel();
+		panel_3.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
+		panel_3.setBounds(10, 11, 270, 344);
+		panel.add(panel_3);
+		panel_3.setLayout(null);
 
-        longitud = new JTextField();
-        longitud.setBounds(100, 90, 120, 20);
-        this.getContentPane().add(longitud);
+		JLabel lblNewLabel = new JLabel("Costo por KM");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		lblNewLabel.setBounds(69, 28, 123, 22);
+		panel_3.add(lblNewLabel);
 
-        prov = new JTextField();
-        prov.setBounds(100, 120, 120, 20);
-        this.getContentPane().add(prov);
+		JLabel lblNewLabel_1 = new JLabel("Localidad A");
+		lblNewLabel_1.setBounds(20, 99, 79, 14);
+		panel_3.add(lblNewLabel_1);
 
-        nombreLocalidad = new JTextField();
-        nombreLocalidad.setBounds(100, 150, 120, 20);
-        this.getContentPane().add(nombreLocalidad);
-        
-        
-        //Boton para ver el Mapa
-        JButton btnMapa = new JButton("Ver mapa");
-        btnMapa.setBounds(250, 230, 150, 23);
+		JLabel lblNewLabel_1_1 = new JLabel("Localidad B");
+		lblNewLabel_1_1.setBounds(20, 140, 79, 14);
+		panel_3.add(lblNewLabel_1_1);
 
-        btnMapa.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(123, 91, 123, 22);
+		panel_3.add(comboBox);
 
-                
+		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setBounds(123, 136, 123, 22);
+		panel_3.add(comboBox_1);
 
-                Mapa mapa = new Mapa(localidades);
-                mapa.setVisible(true);
-                dispose();
-            }
-        });
+		textField = new JTextField();
+		textField.setBounds(33, 276, 213, 20);
+		panel_3.add(textField);
+		textField.setColumns(10);
 
-        this.getContentPane().add(btnMapa);
-       
-        
-        JButton btnAgregar = new JButton("Agregar");
-        btnAgregar.setBounds(250, 150, 150, 23);
+		JButton btnNewButton_2 = new JButton("Calcular");
+		btnNewButton_2.setBounds(26, 187, 220, 33);
+		panel_3.add(btnNewButton_2);
 
-        //Boton para cargar datos
-        btnAgregar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+		JPanel panel_4 = new JPanel();
+		panel_4.setBounds(290, 11, 931, 344);
+		panel.add(panel_4);
+		panel_4.setLayout(new BorderLayout(0, 0));
 
-            	
-                    String nombre = nombreLocalidad.getText();
-                    String provincia = prov.getText();
-                    double lat = Double.parseDouble(latitud.getText());
-                    double lon = Double.parseDouble(longitud.getText());
+		InterfazMapa interfazMapa = new InterfazMapa(mapaLocalidadesJMapViewer);
+		panel_4.add(interfazMapa, BorderLayout.CENTER);
 
-                    Localidad loc = new Localidad(nombre, provincia, lat, lon);
-
-                    localidades.add(loc);
-
-                    JOptionPane.showMessageDialog(null, "Localidad agregada");
-
-                    nombreLocalidad.setText("");
-                    prov.setText("");
-                    latitud.setText("");
-                    longitud.setText("");
-
-                
-            }
-        });
-
-        this.getContentPane().add(btnAgregar);
-
-       
-        JButton btnPlanificar = new JButton("Planificar");
-        btnPlanificar.setBounds(250, 200, 150, 23);
-
-        btnPlanificar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-                FiberConnection fc = new FiberConnection();
-                fc.construirGrafo(localidades);
-
-                Grafo grafo = fc.getGrafo();
-
-                JOptionPane.showMessageDialog(null,
-                        "Grafo construido con " + grafo.obtenerLocalidades().size() + " localidades");
-            }
-        });
-        this.getContentPane().add(btnPlanificar);
-    }
+	}
 }

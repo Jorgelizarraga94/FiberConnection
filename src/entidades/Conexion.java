@@ -1,5 +1,7 @@
 package entidades;
 
+import org.openstreetmap.gui.jmapviewer.Coordinate;
+
 public class Conexion {
 		
 	private Localidad origen;
@@ -18,6 +20,15 @@ public class Conexion {
     public Localidad getDestino() {
         return destino;
     }
+    
+    public Coordinate getCoordenadasOrigen() {
+    	return origen.getCordenadasLocalidad();
+    }
+    
+    public Coordinate getCoordenadasDestino() {
+    	return destino.getCordenadasLocalidad();
+    }
+    
     
     @Override
     public String toString() {
