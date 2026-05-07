@@ -11,13 +11,13 @@ import org.openstreetmap.gui.jmapviewer.Coordinate;
  */
 public class Localidad {
 
-    private String nombre;
+    private String nombreLocalidad;
     private String provincia;
     private double latitud;
     private double longitud;
 
     public Localidad(String nombre, String provincia, double latitud, double longitud) {
-        this.nombre = nombre;
+        this.nombreLocalidad = nombre;
         this.provincia = provincia;
         this.latitud = latitud;
         this.longitud = longitud;
@@ -25,11 +25,11 @@ public class Localidad {
 
 
 	public String getNombre() {
-        return nombre;
+        return nombreLocalidad;
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombreLocalidad = nombre;
     }
 
     public String getProvincia() {
@@ -66,7 +66,7 @@ public class Localidad {
     @Override
     public String toString() {
         return "Localidad{" +
-                "nombre='" + nombre + '\'' +
+                "nombre='" + nombreLocalidad + '\'' +
                 ", provincia='" + provincia + '\'' +
                 ", latitud=" + latitud +
                 ", longitud=" + longitud +
@@ -78,12 +78,12 @@ public class Localidad {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Localidad that = (Localidad) o;
-        return Objects.equals(nombre, that.nombre) &&
+        return Objects.equals(nombreLocalidad, that.nombreLocalidad) &&
                Objects.equals(provincia, that.provincia);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nombre, provincia);
+        return Objects.hash(nombreLocalidad, provincia);
     }
 }

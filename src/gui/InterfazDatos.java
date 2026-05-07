@@ -62,18 +62,14 @@ public class InterfazDatos extends JFrame {
 
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
-				new Object[][] { { null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-						{ null, null, null, null }, },
+				new Object[][] {},
 				new String[] { "Latitud", "Longitud", "Provincia", "Localidad" }));
 		scrollPane.setViewportView(table);
+		
 
+		
+		
+		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
 		panel_2.setBounds(1161, 21, 122, 248);
@@ -84,10 +80,11 @@ public class InterfazDatos extends JFrame {
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				InterfazAgregarLocalidad interfazAgregarLocalidad = new InterfazAgregarLocalidad(
-						mapaLocalidadesJMapViewer, fiberConnection, logicaMapa);
+						mapaLocalidadesJMapViewer, fiberConnection, logicaMapa, table);
 				interfazAgregarLocalidad.setVisible(true);
 			}
 		});
+		
 		btnAgregar.setBounds(10, 11, 102, 34);
 		panel_2.add(btnAgregar);
 

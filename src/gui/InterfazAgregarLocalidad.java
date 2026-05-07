@@ -7,8 +7,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableModel;
+
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import entidades.Localidad;
 import servicio.FiberConnection;
@@ -29,13 +32,15 @@ public class InterfazAgregarLocalidad extends JFrame {
 	private JMapViewer mapaLocalidadesJMapViewer;
 	private FiberConnection fiberConnection;
 	private LogicaMapa logicaMapa;
+	private JTable tabla;
 	private List<Localidad> localidades = new ArrayList<>();
 
 	public InterfazAgregarLocalidad(JMapViewer mapaLocalidadesJMapViewer, FiberConnection fiberConnection,
-			LogicaMapa logicaMapa) {
+			LogicaMapa logicaMapa, JTable table) {
 		this.logicaMapa = logicaMapa;
 		this.mapaLocalidadesJMapViewer = mapaLocalidadesJMapViewer;
 		this.fiberConnection = fiberConnection;
+		tabla = table;
 		this.initialize();
 	}
 
@@ -98,11 +103,20 @@ public class InterfazAgregarLocalidad extends JFrame {
 
 					Localidad loc = new Localidad(nombre, provincia, lat, lon);
 
-					List<Localidad> acumuladas = fiberConnection.obtenerLocalidades();
+					//List<Localidad> acumuladas = fiberConnection.obtenerLocalidades();
+					
+					// 1. Obtenemos el modelo de la tabla existente y le hacemos un "cast"
+					DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
 
-					acumuladas.add(loc);
+					// 2. Creamos un array con los datos (deben coincidir con el número de columnas)
+					Object[] nuevaFila = {loc.getLatitud(), loc.getLongitud(), loc.getProvincia(), loc.getNombre()};
 
-					fiberConnection.construirGrafo(acumuladas);
+					// 3. Agregamos la fila al modelo
+					modelo.addRow(nuevaFila);
+
+					localidades.add(loc);
+
+					fiberConnection.construirGrafo(localidades);
 
 					mapaLocalidadesJMapViewer.removeAllMapMarkers();
 					mapaLocalidadesJMapViewer.removeAllMapPolygons();
