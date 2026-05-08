@@ -8,9 +8,9 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import entidades.Localidad;
 import grafo.Grafo;
+import persistencia.BaseDeDatos;
 import servicio.FiberConnection;
 import servicio.LogicaMapa;
-import servicio.ManejoDatos;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -31,14 +31,16 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.DefaultComboBoxModel;
 
 public class InterfazDatos extends JFrame {
 	private FiberConnection fiberConnection;
 	private LogicaMapa logicaMapa;
 	private JMapViewer mapaLocalidadesJMapViewer;
 	private JTable table;
-	private JTextField textField;
-	private ManejoDatos baseDatos;
+	private JTextField textFieldCosto;
+	private BaseDeDatos baseDatos;
+	JComboBox comboBoxLocalidadA;
 
 	public InterfazDatos(JMapViewer mapa, FiberConnection fiberConnection, LogicaMapa logicaMapa) {
 		this.logicaMapa = logicaMapa;
@@ -76,7 +78,7 @@ public class InterfazDatos extends JFrame {
 				new String[] { "Latitud", "Longitud", "Provincia", "Localidad" }));
 		scrollPane.setViewportView(table);
 
-		List<String> datos = ManejoDatos.getDatosOrdenados();
+		List<String> datos = BaseDeDatos.getDatosOrdenados();
 		String[][] datosLocalidades = new String[datos.size()][4];
 		for (int i = 0; i < datos.size(); i++) {
 			String[] partes = datos.get(i).split(",");
@@ -110,7 +112,7 @@ public class InterfazDatos extends JFrame {
 
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ManejoDatos.eliminarSeleccionado(table.getSelectedRow());
+				BaseDeDatos.eliminarSeleccionado(table.getSelectedRow());
 				refrescarTabla();
 			}
 		});
@@ -154,22 +156,38 @@ public class InterfazDatos extends JFrame {
 		lblNewLabel_1_1.setBounds(20, 140, 79, 14);
 		panel_3.add(lblNewLabel_1_1);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(123, 91, 123, 22);
-		panel_3.add(comboBox);
+		comboBoxLocalidadA = new JComboBox();	
+		comboBoxLocalidadA.setBounds(123, 91, 123, 22);
+		panel_3.add(comboBoxLocalidadA);
+		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+		Grafo grafo = fiberConnection.getGrafo();
+		for(Localidad localidad : grafo.getAdyacencias().keySet()) {
+			
+		}
+		// 1. Obtenemos los datos frescos de la base/archivo
+	    List<String> datosa = BaseDeDatos.getDatosOrdenados();
+	    String[] nombres = new String[datosa.size()];
+	    
+	    for (int i = 0; i < datosa.size(); i++) {
+	        String[] partes = datosa.get(i).split(",");
+	        nombres[i] = partes[3]; // El nombre de la localidad
+	    }
+	    
+	    // 2. Seteamos los modelos
+	    comboBoxLocalidadA.setModel(new DefaultComboBoxModel<>(nombres));
 
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(123, 136, 123, 22);
-		panel_3.add(comboBox_1);
+		JComboBox comboBoxLocalidadB = new JComboBox();
+		comboBoxLocalidadB.setBounds(123, 136, 123, 22);
+		panel_3.add(comboBoxLocalidadB);
 
-		textField = new JTextField();
-		textField.setBounds(33, 276, 213, 20);
-		panel_3.add(textField);
-		textField.setColumns(10);
+		textFieldCosto = new JTextField();
+		textFieldCosto.setBounds(33, 276, 213, 20);
+		panel_3.add(textFieldCosto);
+		textFieldCosto.setColumns(10);
 
-		JButton btnNewButton_2 = new JButton("Calcular");
-		btnNewButton_2.setBounds(26, 187, 220, 33);
-		panel_3.add(btnNewButton_2);
+		JButton btnCalcularCostoKm = new JButton("Calcular");
+		btnCalcularCostoKm.setBounds(26, 187, 220, 33);
+		panel_3.add(btnCalcularCostoKm);
 
 		JPanel panel_4 = new JPanel();
 		panel_4.setBounds(290, 11, 931, 344);
@@ -193,11 +211,32 @@ public class InterfazDatos extends JFrame {
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 		modelo.setRowCount(0);
 
-		List<String> datosNuevos = ManejoDatos.leerArchivo();
+		List<String> datosNuevos = BaseDeDatos.leerArchivo();
 
 		for (String linea : datosNuevos) {
 			String[] campos = linea.split(",");
 			modelo.addRow(new Object[] { campos[0], campos[1], campos[2], campos[3] });
 		}
 	}
+	public void refrescarCombos() {
+	    // Obtenemos el grafo desde la lógica
+	    Grafo grafoActual = fiberConnection.getGrafo();
+	    
+	    // Obtenemos la lista de objetos Localidad reales
+	    List<Localidad> localidades = grafoActual.obtenerLocalidades();
+	    
+	    // Creamos los modelos para los combos
+	    DefaultComboBoxModel<Localidad> modeloA = new DefaultComboBoxModel<>();
+	    DefaultComboBoxModel<Localidad> modeloB = new DefaultComboBoxModel<>();
+	    
+	    for (Localidad localidad : localidades) {
+	        modeloA.addElement(localidad);
+	    }
+	    
+	    // Asignamos los modelos a los combos de la interfaz
+	    comboBoxLocalidadA.setModel(modeloA);
+	    
+	}
+	
+	
 }

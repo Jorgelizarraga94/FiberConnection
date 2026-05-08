@@ -16,11 +16,11 @@ public class Localidad {
     private double latitud;
     private double longitud;
 
-    public Localidad(String nombre, String provincia, double latitud, double longitud) {
+    public Localidad(double latitud, double longitud, String provincia, String nombre) {
+    	this.latitud = latitud;
+    	this.longitud = longitud;
         this.nombreLocalidad = nombre;
         this.provincia = provincia;
-        this.latitud = latitud;
-        this.longitud = longitud;
     }
 
 

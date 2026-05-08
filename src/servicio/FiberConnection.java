@@ -1,6 +1,7 @@
 package servicio;
 
 import grafo.Grafo;
+import gui.InterfazDatos;
 import entidades.Conexion;
 import entidades.Localidad;
 
@@ -8,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.swing.DefaultComboBoxModel;
 
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 
@@ -19,6 +22,7 @@ public class FiberConnection {
     public FiberConnection() {
         this.grafo = new Grafo();
         this.grafoTest = new Grafo();
+        
     }
 
     public Grafo getGrafo() {
@@ -26,7 +30,7 @@ public class FiberConnection {
     }
 
     
-    public void construirGrafo(List<Localidad> localidades) {
+    /*public void construirGrafo(List<Localidad> localidades) {
 
         Map<Localidad, List<Conexion>> adyacencias = new HashMap<>();
 
@@ -52,9 +56,16 @@ public class FiberConnection {
 
        
         grafo.setAdyacencias(adyacencias);
+    }*/
+    
+    public void agregarLocalidadGrafo(Localidad nuevaLocalidad) {
+        // Verificamos que no exista ya para no duplicar
+        if (!grafo.getAdyacencias().containsKey(nuevaLocalidad)) {
+            // Agregamos la localidad como clave y le creamos una lista de conexiones vacía
+            grafo.getAdyacencias().put(nuevaLocalidad, new ArrayList<Conexion>());
+            System.out.println("Nodo agregado al grafo: " + nuevaLocalidad.getNombre());
+        }
     }
-    
-    
 
     
     //Devuelve todas las conexiones del grafo en una sola lista
@@ -111,6 +122,7 @@ public class FiberConnection {
 		int cantVecinosActual = 0;
 		return cantVecinosActual;
 	}
+	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// 
 /// 
@@ -137,7 +149,7 @@ public class FiberConnection {
                 Localidad origen = localidades.get(i);
                 Localidad destino = localidades.get(j);
 
-                Conexion conexion = new Conexion(origen, destino);
+                Conexion conexion = new Conexion(origen, destino,20.0);
 
                 //agregar en ambos sentidos (grafo no dirigido)
                 adyacencias.get(origen).add(conexion);
@@ -166,7 +178,7 @@ public class FiberConnection {
                 Localidad destino = localidades.get(j);
 
                 // Todavía no lo hice pero es necesario cambiar la lógica de las conexiones para que reciba las conexiones del parámetro y solo cree esas 
-                Conexion conexion = new Conexion(origen, destino);
+                Conexion conexion = new Conexion(origen, destino,20.0);
 
                 //agregar en ambos sentidos (grafo no dirigido)
                 adyacencias.get(origen).add(conexion);

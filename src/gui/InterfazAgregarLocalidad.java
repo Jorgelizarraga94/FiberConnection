@@ -16,9 +16,9 @@ import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import entidades.Localidad;
+import persistencia.BaseDeDatos;
 import servicio.FiberConnection;
 import servicio.LogicaMapa;
-import servicio.ManejoDatos;
 
 public class InterfazAgregarLocalidad extends JFrame {
 
@@ -96,23 +96,21 @@ public class InterfazAgregarLocalidad extends JFrame {
 		btnAgregarLocalidad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					//1-Datos ingresados por el usuario
 					String nombre = nombreLocalidad.getText();
 					String provincia = prov.getText();
-					double lat = Double.parseDouble(latitud.getText());
-					double lon = Double.parseDouble(longitud.getText());
-
-					Localidad loc = new Localidad(nombre, provincia, lat, lon);
-
-					//List<Localidad> acumuladas = fiberConnection.obtenerLocalidades();
-					
-					//Datos en Tabla
-					cargarTabla(lat, lon, provincia, nombre);
-					ManejoDatos.guardarDatos(lat, lon, provincia, nombre);
+					double latit = Double.parseDouble(latitud.getText());
+					double longit = Double.parseDouble(longitud.getText());
+					//2-Agregamos un nuevo Nodo de Localidad al grafo
+					fiberConnection.agregarLocalidadGrafo(new Localidad(latit, longit, provincia, nombre));
+					//3-Cargamos Datos en Tabla
+					cargarTabla(fiberConnection.getGrafo().obtenerLocalidades().get(0));
+					//4-Guardamos datos en Base de datos
+					BaseDeDatos.guardarDatos(latit, longit, provincia, nombre);
+					//Refrescamos interfaz tabla y comboBox
 					interfazDatos.refrescarTabla();
-					localidades.add(loc);
-
-					fiberConnection.construirGrafo(localidades);
-
+					interfazDatos.refrescarCombos();
+					
 					logicaMapa.dibujarGrafo(fiberConnection.obtenerLocalidades(),
 							fiberConnection.obtenerTodasLasConexiones(), mapaLocalidadesJMapViewer);
 
@@ -131,9 +129,9 @@ public class InterfazAgregarLocalidad extends JFrame {
 		panel.add(btnAgregarLocalidad);
 	}
 	
-	public void cargarTabla(double latitud, double longitud, String provincia, String localidad) {
+	public void cargarTabla(Localidad localidad) {
 		DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-		Object[] nuevaFila = {latitud, longitud, provincia, localidad};
+		Object[] nuevaFila = {localidad.getLatitud(), localidad.getLongitud(), localidad.getProvincia(), localidad.getNombre()};
 		modelo.addRow(nuevaFila);
 	}
 }

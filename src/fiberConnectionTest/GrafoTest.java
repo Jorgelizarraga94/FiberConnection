@@ -14,12 +14,12 @@ import grafo.Grafo;
 import servicio.FiberConnection;
 
 public class GrafoTest{
-	Localidad sanMiguel = new Localidad("San Miguel", "Buenos Aires", -34.543159,  -58.711774);
-	Localidad bellaVista = new Localidad("Bella Vista", "Buenos Aires", -34.5333, -58.6667);
-	Localidad joseCPaz = new Localidad("Jose C Paz", "Buenos Aires",  -34.51541, -58.76813);
-	Localidad cordobaCapital = new Localidad("Cordoba Capital", "Cordoba", -31.416666666667, -64.183333333333);
-	Localidad bariloche = new Localidad("Bariloche", "Rio Negro", -41.14557, -71.30822);
-	Localidad ushuaia  = new Localidad("Ushuaia ", "Tierra del Fuego", -54.81084, -68.31591);
+	Localidad sanMiguel = new Localidad(-34.543159,  -58.711774, "San Miguel", "Buenos Aires");
+	Localidad bellaVista = new Localidad(-34.5333, -58.6667,"Bella Vista", "Buenos Aires");
+	Localidad joseCPaz = new Localidad(-34.51541, -58.76813, "Jose C Paz", "Buenos Aires");
+	Localidad cordobaCapital = new Localidad(-31.416666666667, -64.183333333333,"Cordoba Capital", "Cordoba");
+	Localidad bariloche = new Localidad(-41.14557, -71.30822,"Bariloche", "Rio Negro");
+	Localidad ushuaia  = new Localidad(-54.81084, -68.31591, "Ushuaia ", "Tierra del Fuego");
 	
 	
 	Grafo grafo = new Grafo();

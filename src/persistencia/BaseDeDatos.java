@@ -1,4 +1,4 @@
-package servicio;
+package persistencia;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,7 +12,7 @@ import java.util.List;
 
 
 
-public class ManejoDatos {
+public class BaseDeDatos {
 	// ================== OBTENER ARCHIVO ==================
     private static File getArchivo() {
         File archivo = new File("Datos.txt");
@@ -69,15 +69,7 @@ public class ManejoDatos {
         return datos;
     }
 
-    // ================== RESETEAR ==================
-    public static void resetearPuntajes() {
-        File archivo = getArchivo();
-
-        try (FileWriter fw = new FileWriter(archivo)) {
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    
 
     public static void eliminarSeleccionado(int selectedRow) {
         File archivo = getArchivo();

@@ -48,8 +48,13 @@ public class Grafo {
         return adyacencias.get(l);
     }
 
-	public void agregarConexion(Localidad localidad1, Localidad localidad2, double peso) {
-		// TODO Auto-generated method stub
+	public void agregarConexion(Localidad localidadA, Localidad localidadB, double km) {
+		// Las conexiones en estos grafos suelen ser bidireccionales
+	    Conexion nuevaConexion = new Conexion(localidadA, localidadB, km);
+	    
+	    // Agregamos la conexión a la lista de adyacencia de AMBAS localidades
+	    adyacencias.get(localidadA).add(nuevaConexion);
+	    adyacencias.get(localidadB).add(nuevaConexion);
 		
 	}
 

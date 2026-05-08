@@ -6,11 +6,13 @@ public class Conexion {
 		
 	private Localidad origen;
 	private Localidad destino;
+	private Double km;
 	
 	
-	public Conexion(Localidad origen, Localidad destino) {
+	public Conexion(Localidad origen, Localidad destino, Double km) {
 		this.origen = origen;
 		this.destino = destino;
+		this.km = km;
 	}
 	
 	public Localidad getOrigen() {
