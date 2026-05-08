@@ -69,6 +69,8 @@ public class InterfazDatos extends JFrame {
 		panel_1.add(scrollPane);
 
 		table = new JTable();
+		//Evita que las celdas sean editables
+		table.setDefaultEditor(Object.class, null);
 
 		table.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "Latitud", "Longitud", "Provincia", "Localidad" }));
