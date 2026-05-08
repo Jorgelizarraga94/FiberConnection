@@ -1,3 +1,4 @@
 -34.543159,-58.711774,Buenos Aires,San Miguel
 -31.40292,-64.189668,Cordoba,Cordoba Capital
 -32.95883119799074,-60.68759721020331,Santa fe,Rosario
+123.0,123.0,Buenos Aires,San Miguel

@@ -62,10 +62,10 @@ public class ControladoraPersistencia {
             String[] datosA = a.split(",");
             String[] datosB= b.split(",");
             
-            Double longitudA = Double.parseDouble(datosA[0]);
-            Double longitudB = Double.parseDouble(datosB[0]);
+            String longitudA = datosA[2];
+            String longitudB = datosB[2];
 
-            return Double.compare(longitudA,longitudB); 
+            return longitudA.compareTo(longitudB); 
         });
 
         return datos;

@@ -41,9 +41,9 @@ public class InterfazMapa extends JPanel {
         revalidate();
         repaint();
 		
-      //Para que quede en jcp
-      	Coordinate coordenada = new Coordinate(-34.5111, -58.8183); 
-      	mapa.setDisplayPosition(coordenada, 12);
+      //Para que quede en la UNGS
+      	Coordinate coordenada = new Coordinate(-34.52329709381321, -58.700576776189784); 
+      	mapa.setDisplayPosition(coordenada, 10);
 	}
 
 	
