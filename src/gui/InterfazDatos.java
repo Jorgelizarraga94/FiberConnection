@@ -6,12 +6,13 @@ import javax.swing.JTextField;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+
+import entidades.ControladoraLogica;
 import entidades.Localidad;
 import grafo.Grafo;
-import persistencia.BaseDeDatos;
+import persistencia.ControladoraPersistencia;
 import servicio.FiberConnection;
 import servicio.LogicaMapa;
-
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,8 +40,8 @@ public class InterfazDatos extends JFrame {
 	private JMapViewer mapaLocalidadesJMapViewer;
 	private JTable table;
 	private JTextField textFieldCosto;
-	private BaseDeDatos baseDatos;
-	JComboBox comboBoxLocalidadA;
+	private JComboBox comboBoxLocalidadA;
+	private ControladoraLogica controlLogica = new ControladoraLogica();
 
 	public InterfazDatos(JMapViewer mapa, FiberConnection fiberConnection, LogicaMapa logicaMapa) {
 		this.logicaMapa = logicaMapa;
@@ -78,7 +79,7 @@ public class InterfazDatos extends JFrame {
 				new String[] { "Latitud", "Longitud", "Provincia", "Localidad" }));
 		scrollPane.setViewportView(table);
 
-		List<String> datos = BaseDeDatos.getDatosOrdenados();
+		List<String> datos = controlLogica.getLocalidadesOrdenadas();
 		String[][] datosLocalidades = new String[datos.size()][4];
 		for (int i = 0; i < datos.size(); i++) {
 			String[] partes = datos.get(i).split(",");
@@ -112,7 +113,7 @@ public class InterfazDatos extends JFrame {
 
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BaseDeDatos.eliminarSeleccionado(table.getSelectedRow());
+				controlLogica.deleteSeleccionado(table.getSelectedRow());
 				refrescarTabla();
 			}
 		});
@@ -165,7 +166,7 @@ public class InterfazDatos extends JFrame {
 			
 		}
 		// 1. Obtenemos los datos frescos de la base/archivo
-	    List<String> datosa = BaseDeDatos.getDatosOrdenados();
+	    List<String> datosa = controlLogica.getLocalidadesOrdenadas();
 	    String[] nombres = new String[datosa.size()];
 	    
 	    for (int i = 0; i < datosa.size(); i++) {
@@ -211,13 +212,14 @@ public class InterfazDatos extends JFrame {
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 		modelo.setRowCount(0);
 
-		List<String> datosNuevos = BaseDeDatos.leerArchivo();
+		List<String> datosNuevos = controlLogica.getLocalidadesOrdenadas();
 
 		for (String linea : datosNuevos) {
 			String[] campos = linea.split(",");
 			modelo.addRow(new Object[] { campos[0], campos[1], campos[2], campos[3] });
 		}
 	}
+	
 	public void refrescarCombos() {
 	    // Obtenemos el grafo desde la lógica
 	    Grafo grafoActual = fiberConnection.getGrafo();

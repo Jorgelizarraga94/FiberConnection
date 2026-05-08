@@ -10,9 +10,11 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
+import entidades.Localidad;
 
 
-public class BaseDeDatos {
+
+public class ControladoraPersistencia {
 	// ================== OBTENER ARCHIVO ==================
     private static File getArchivo() {
         File archivo = new File("Datos.txt");
@@ -20,19 +22,19 @@ public class BaseDeDatos {
     }
 
     // ================== GUARDAR ==================
-    public static void guardarDatos(Double latitud, Double longitud, String provincia, String localidad) {
+    public void guardarLocalidad(Localidad localidad) {
         File archivo = getArchivo();
 
         try (FileWriter fw = new FileWriter(archivo, true)) {
 
-            fw.write(latitud + "," + longitud + "," + provincia + "," + localidad + "\n");
+            fw.write(localidad.getLatitud() + "," + localidad.getLongitud() + "," + localidad.getProvincia() + "," + localidad.getNombre() + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     // ================== LEER ==================
-    public static List<String> leerArchivo() {
+    public List<String> traerLocalidades() {
         List<String> lista = new ArrayList<>();
 
         File archivo = getArchivo();
@@ -52,9 +54,9 @@ public class BaseDeDatos {
     }
 
     // ================== ORDENAR ==================
-    public static List<String> getDatosOrdenados() {
+    public List<String> traerLocalidadesOrdenadas() {
     	
-        List<String> datos = leerArchivo();
+        List<String> datos = traerLocalidades();
 
         datos.sort((a, b) -> {
             String[] datosA = a.split(",");
@@ -69,9 +71,7 @@ public class BaseDeDatos {
         return datos;
     }
 
-    
-
-    public static void eliminarSeleccionado(int selectedRow) {
+    public void eliminarSeleccionado(int selectedRow) {
         File archivo = getArchivo();
         List<String> lineasRestantes = new ArrayList<>();
 

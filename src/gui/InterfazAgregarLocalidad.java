@@ -15,8 +15,10 @@ import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
+
+import entidades.ControladoraLogica;
 import entidades.Localidad;
-import persistencia.BaseDeDatos;
+import persistencia.ControladoraPersistencia;
 import servicio.FiberConnection;
 import servicio.LogicaMapa;
 
@@ -33,7 +35,8 @@ public class InterfazAgregarLocalidad extends JFrame {
 	private InterfazDatos interfazDatos;
 	private JTable tabla;
 	private List<Localidad> localidades = new ArrayList<>();
-
+	private ControladoraLogica controladoraLogica = new ControladoraLogica();
+	
 	public InterfazAgregarLocalidad(JMapViewer mapaLocalidadesJMapViewer, FiberConnection fiberConnection,
 			LogicaMapa logicaMapa, JTable table, InterfazDatos interfazDatos) {
 		this.logicaMapa = logicaMapa;
@@ -106,7 +109,7 @@ public class InterfazAgregarLocalidad extends JFrame {
 					//3-Cargamos Datos en Tabla
 					cargarTabla(fiberConnection.getGrafo().obtenerLocalidades().get(0));
 					//4-Guardamos datos en Base de datos
-					BaseDeDatos.guardarDatos(latit, longit, provincia, nombre);
+					controladoraLogica.saveLocalidad(latit, longit, provincia, nombre);
 					//Refrescamos interfaz tabla y comboBox
 					interfazDatos.refrescarTabla();
 					interfazDatos.refrescarCombos();
