@@ -1,4 +1,2 @@
 -34.543159,-58.711774,Buenos Aires,San Miguel
 -34.5333,-58.6667,Buenos Aires,Bella Vista
--41.14557,-71.30822,Rio Negro,Bariloche
--54.81084,-68.31591,Tierra del Fuego,Ushuaia

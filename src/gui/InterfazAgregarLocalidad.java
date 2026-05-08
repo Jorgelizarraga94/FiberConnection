@@ -33,15 +33,17 @@ public class InterfazAgregarLocalidad extends JFrame {
 	private JMapViewer mapaLocalidadesJMapViewer;
 	private FiberConnection fiberConnection;
 	private LogicaMapa logicaMapa;
+	private InterfazDatos interfazDatos;
 	private JTable tabla;
 	private List<Localidad> localidades = new ArrayList<>();
 
 	public InterfazAgregarLocalidad(JMapViewer mapaLocalidadesJMapViewer, FiberConnection fiberConnection,
-			LogicaMapa logicaMapa, JTable table) {
+			LogicaMapa logicaMapa, JTable table, InterfazDatos interfazDatos) {
 		this.logicaMapa = logicaMapa;
 		this.mapaLocalidadesJMapViewer = mapaLocalidadesJMapViewer;
 		this.fiberConnection = fiberConnection;
 		tabla = table;
+		this.interfazDatos = interfazDatos;
 		this.initialize();
 	}
 
@@ -109,7 +111,7 @@ public class InterfazAgregarLocalidad extends JFrame {
 					//Datos en Tabla
 					cargarTabla(lat, lon, provincia, nombre);
 					ManejoDatos.guardarDatos(lat, lon, provincia, nombre);
-					
+					interfazDatos.refrescarTabla();
 					localidades.add(loc);
 
 					fiberConnection.construirGrafo(localidades);

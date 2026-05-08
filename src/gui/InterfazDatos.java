@@ -96,7 +96,7 @@ public class InterfazDatos extends JFrame {
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				InterfazAgregarLocalidad interfazAgregarLocalidad = new InterfazAgregarLocalidad(
-						mapaLocalidadesJMapViewer, fiberConnection, logicaMapa, table);
+						mapaLocalidadesJMapViewer, fiberConnection, logicaMapa, table, InterfazDatos.this);
 				interfazAgregarLocalidad.setVisible(true);
 			}
 		});
@@ -109,7 +109,7 @@ public class InterfazDatos extends JFrame {
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ManejoDatos.eliminarSeleccionado(table.getSelectedRow());
-
+				refrescarTabla();
 			}
 		});
 
@@ -184,6 +184,18 @@ public class InterfazDatos extends JFrame {
 		modelo.setRowCount(0);
 		for (String[] fila : localidades) {
 			modelo.addRow(new Object[] { fila[0], fila[1], fila[2], fila[3] });
+		}
+	}
+
+	public void refrescarTabla() {
+		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+		modelo.setRowCount(0);
+
+		List<String> datosNuevos = ManejoDatos.leerArchivo();
+
+		for (String linea : datosNuevos) {
+			String[] campos = linea.split(",");
+			modelo.addRow(new Object[] { campos[0], campos[1], campos[2], campos[3] });
 		}
 	}
 }
