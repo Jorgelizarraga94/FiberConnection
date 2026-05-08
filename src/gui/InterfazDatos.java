@@ -72,6 +72,10 @@ public class InterfazDatos extends JFrame {
 
 		table.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "Latitud", "Longitud", "Provincia", "Localidad" }));
+				
+		//Evita que las celdas sean editables
+		table.setDefaultEditor(Object.class, null);
+		
 		scrollPane.setViewportView(table);
 
 		List<String> datos = ManejoDatos.getDatosOrdenados();
