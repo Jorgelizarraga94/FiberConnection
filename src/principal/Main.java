@@ -20,25 +20,7 @@ public class Main extends JFrame
 		JMapViewer mapa = new JMapViewer();
 		FiberConnection fiberConnection = new FiberConnection();
 		LogicaMapa logicaMapa = new LogicaMapa();
-		
-		ControladoraLogica controladoraLogica = new ControladoraLogica();
-		List<String> listaDatosLocalidades = controladoraLogica.getLocalidadesOrdenadas();
-		List<Localidad> listaDeLocalidadesList = new ArrayList<>();
-		for (String linea : listaDatosLocalidades) {
-		    String[] partes = linea.split(",");
-		    
-		    Localidad loc = new Localidad(
-		        Double.parseDouble(partes[0]), 
-		        Double.parseDouble(partes[1]), 
-		        partes[2], 
-		        partes[3]
-		    );
-		    listaDeLocalidadesList.add(loc);
-		    System.out.println("Procesando: " + loc.getNombre());
-		    
-		    
-		}
-		logicaMapa.dibujarGrafo(listaDeLocalidadesList, null, mapa);
+		logicaMapa.dibujar(mapa);
 		InterfazDatos interfazDatos = new InterfazDatos(mapa, fiberConnection, logicaMapa);
 		interfazDatos.setVisible(true);
 	}

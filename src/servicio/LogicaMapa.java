@@ -3,6 +3,7 @@ package servicio;
 import org.openstreetmap.gui.jmapviewer.*;
 
 import entidades.Conexion;
+import entidades.ControladoraLogica;
 import entidades.Localidad;
 
 import java.awt.Color;
@@ -39,6 +40,23 @@ public class LogicaMapa {
 	    
 	    // El mapa necesita un repaint aquí también
 	    mapa.repaint();
+	}
+	public void dibujar(JMapViewer mapa) {
+		ControladoraLogica controladoraLogica = new ControladoraLogica();
+		List<String> listaDatosLocalidades = controladoraLogica.getLocalidadesOrdenadas();
+		List<Localidad> listaDeLocalidadesList = new ArrayList<>();
+		for (String linea : listaDatosLocalidades) {
+		    String[] partes = linea.split(",");
+		    
+		    Localidad loc = new Localidad(
+		        Double.parseDouble(partes[0]), 
+		        Double.parseDouble(partes[1]), 
+		        partes[2], 
+		        partes[3]
+		    );
+		    listaDeLocalidadesList.add(loc);
+		}
+		dibujarGrafo(listaDeLocalidadesList, null, mapa);
 	}
 	
 }
