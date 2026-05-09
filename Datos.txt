@@ -1,3 +1,2 @@
 -34.543159,-58.711774,Buenos Aires,San Miguel
--34.543159,-58.711774,Buenos Aires ,San Miguel
 -31.40628337,-64.19526712,Cordoba,Cordoba

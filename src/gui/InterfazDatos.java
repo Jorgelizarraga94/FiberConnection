@@ -34,13 +34,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseMotionAdapter;
+import javax.swing.JTextArea;
+import javax.swing.border.LineBorder;
 
 public class InterfazDatos extends JFrame {
 	private FiberConnection fiberConnection;
 	private LogicaMapa logicaMapa;
 	private JMapViewer mapaLocalidadesJMapViewer;
 	private JTable table;
-	private JTextField textFieldCosto;
 	private ControladoraLogica controlLogica = new ControladoraLogica();
 	private JComboBox comboBoxLocalidadA;
 	private JComboBox comboBoxLocalidadB;
@@ -64,6 +65,9 @@ public class InterfazDatos extends JFrame {
 		JLabel lblNewLabel = new JLabel("Costo por KM");
 		JLabel lblNewLabel_1 = new JLabel("Localidad A");
 		JLabel lblNewLabel_1_1 = new JLabel("Localidad B");
+		JTextArea textAreaDistancia = new JTextArea();
+		textAreaDistancia.setEditable(false);
+		textAreaDistancia.setAutoscrolls(false);
 		comboBoxLocalidadA = new JComboBox();
 		comboBoxLocalidadB = new JComboBox();
 
@@ -99,15 +103,16 @@ public class InterfazDatos extends JFrame {
 		JButton btnCalcularCostoKm = new JButton("Calcular");
 		btnCalcularCostoKm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Convertimos el set de llaves a una lista para acceder por posición
 				List<Localidad> nodos = new ArrayList<>(fiberConnection.getGrafo().getAdyacencias().keySet());
 				System.out.println(nodos.size());
 				if (nodos.size() >= 2) {
 					Localidad puntoA = nodos.get(0);
 					Localidad puntoB = nodos.get(1);
 
-					// Calculamos la distancia usando el método que agregaste a Localidad
-					double distancia = puntoA.distanciaEntreDosPuntos(puntoB);
+					Double distancia = puntoA.distanciaEntreDosPuntos(puntoB);
+					String distanciaString = String.format("%.2f", distancia);
+					textAreaDistancia.setText(distanciaString);
+
 					System.out.println("Distancia entre " + puntoA.getNombre() + " y " + puntoB.getNombre() + ": "
 							+ distancia + " km");
 				}
@@ -234,13 +239,23 @@ public class InterfazDatos extends JFrame {
 		comboBoxLocalidadB.setBounds(123, 136, 123, 22);
 		panel_3.add(comboBoxLocalidadB);
 
-		textFieldCosto = new JTextField();
-		textFieldCosto.setBounds(33, 276, 213, 20);
-		panel_3.add(textFieldCosto);
-		textFieldCosto.setColumns(10);
-
 		btnCalcularCostoKm.setBounds(26, 187, 220, 33);
 		panel_3.add(btnCalcularCostoKm);
+
+		textAreaDistancia.setCaretColor(new Color(255, 255, 255));
+		textAreaDistancia.setBorder(new LineBorder(new Color(0, 0, 0)));
+		textAreaDistancia.setBackground(new Color(255, 255, 255));
+		textAreaDistancia.setBounds(33, 243, 213, 22);
+		panel_3.add(textAreaDistancia);
+		
+		JTextArea textAreaCostoKm = new JTextArea();
+		textAreaCostoKm.setEditable(false);
+		textAreaCostoKm.setCaretColor(Color.WHITE);
+		textAreaCostoKm.setBorder(new LineBorder(new Color(0, 0, 0)));
+		textAreaCostoKm.setBackground(Color.WHITE);
+		textAreaCostoKm.setAutoscrolls(false);
+		textAreaCostoKm.setBounds(33, 282, 213, 22);
+		panel_3.add(textAreaCostoKm);
 
 		panel_4.setBounds(290, 11, 931, 344);
 		panel.add(panel_4);
@@ -290,5 +305,4 @@ public class InterfazDatos extends JFrame {
 		comboBoxLocalidadA.setModel(modeloA);
 		comboBoxLocalidadB.setModel(modeloB);
 	}
-
 }
