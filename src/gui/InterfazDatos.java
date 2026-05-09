@@ -70,16 +70,27 @@ public class InterfazDatos extends JFrame {
 		getContentPane().addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				// 1. Obtenemos los datos frescos de la base/archivo
-				List<String> datosa = controlLogica.getLocalidadesOrdenadas();
-				String[] nombres = new String[datosa.size()];
+				// 1. Obtenemos los datos de la BD
+				List<String> localidadesLista = controlLogica.getLocalidadesOrdenadas();
+				// 2. Recorremos la lista de String, la transformamos en Objeto Localidad y
+				// agregamos las localidades al grafo
+				for (String linea : localidadesLista) {
+					String[] partes = linea.split(",");
 
-				for (int i = 0; i < datosa.size(); i++) {
-					String[] partes = datosa.get(i).split(",");
+					Localidad loc = new Localidad(Double.parseDouble(partes[0]), Double.parseDouble(partes[1]),
+							partes[2], partes[3]);
+
+					fiberConnection.agregarLocalidadGrafo(
+							new Localidad(loc.getLatitud(), loc.getLongitud(), loc.getProvincia(), loc.getNombre()));
+				}
+				// 3. Actualizamos los combo Box
+				String[] nombres = new String[localidadesLista.size()];
+
+				for (int i = 0; i < localidadesLista.size(); i++) {
+					String[] partes = localidadesLista.get(i).split(",");
 					nombres[i] = partes[3]; // El nombre de la localidad
 				}
 
-				// 2. Seteamos los modelos
 				comboBoxLocalidadA.setModel(new DefaultComboBoxModel<>(nombres));
 				comboBoxLocalidadB.setModel(new DefaultComboBoxModel<>(nombres));
 			}
