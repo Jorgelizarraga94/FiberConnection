@@ -23,7 +23,16 @@ public class Conexion {
         return destino;
     }
     
-    public Coordinate getCoordenadasOrigen() {
+    
+    public Double getKm() {
+		return km;
+	}
+
+	public void setKm(Double km) {
+		this.km = km;
+	}
+
+	public Coordinate getCoordenadasOrigen() {
     	return origen.getCordenadasLocalidad();
     }
     

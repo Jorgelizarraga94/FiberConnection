@@ -105,16 +105,17 @@ public class InterfazAgregarLocalidad extends JFrame {
 					double latit = Double.parseDouble(latitud.getText());
 					double longit = Double.parseDouble(longitud.getText());
 					//2-Agregamos un nuevo Nodo de Localidad al grafo
-					fiberConnection.agregarLocalidadGrafo(new Localidad(latit, longit, provincia, nombre));
+					fiberConnection.construirGrafo(new Localidad(latit, longit, provincia, nombre));
 					//3-Cargamos Datos en Tabla
 					cargarTabla(fiberConnection.getGrafo().obtenerLocalidades().get(0));
 					//4-Guardamos datos en Base de datos
 					controladoraLogica.saveLocalidad(latit, longit, provincia, nombre);
 					//Refrescamos interfaz tabla y comboBox
 					interfazDatos.refrescarTabla();
-					interfazDatos.refrescarCombos();
+					//ESTA LLAMADA A INICIALIZAR CREEMOS QUE ESTA RARA
+					interfazDatos.inicializarDatos();
 					
-					logicaMapa.dibujar(mapaLocalidadesJMapViewer);
+					logicaMapa.dibujar(mapaLocalidadesJMapViewer,fiberConnection.getGrafo());
 					
 					JOptionPane.showMessageDialog(null, "Localidad agregada: " + nombre);
 					dispose();

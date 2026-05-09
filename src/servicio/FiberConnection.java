@@ -7,6 +7,7 @@ import entidades.Localidad;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -30,42 +31,22 @@ public class FiberConnection {
     }
 
     
-    /*public void construirGrafo(List<Localidad> localidades) {
-
-        Map<Localidad, List<Conexion>> adyacencias = new HashMap<>();
-
-        //Inicializar nodos
-        for (Localidad localidad : localidades) {
-            adyacencias.put(localidad, new ArrayList<>());
+    public void construirGrafo(Localidad localidad) {
+    	// 1. Primero aseguramos que la nueva localidad esté en el sistema
+        if (!grafo.getAdyacencias().containsKey(localidad)) {
+            grafo.getAdyacencias().put(localidad, new ArrayList<Conexion>());
         }
 
-        //Crear grafo completo 
-        for (int i = 0; i < localidades.size(); i++) {
-            for (int j = i + 1; j < localidades.size(); j++) {
-
-                Localidad origen = localidades.get(i);
-                Localidad destino = localidades.get(j);
-
-                Conexion conexion = new Conexion(origen, destino);
-
-                //agregar en ambos sentidos (grafo no dirigido)
-                adyacencias.get(origen).add(conexion);
-                adyacencias.get(destino).add(conexion);
+        // 2. Conectamos la nueva localidad con TODAS las que ya estaban cargadas
+        // Esto crea el "Grafo Completo" necesario para que el AGM pueda elegir
+        for (Localidad existente : grafo.getAdyacencias().keySet()) {
+            if (!existente.equals(localidad)) {
+                double distancia = localidad.distanciaEntreDosPuntos(existente);
+                grafo.agregarConexion(localidad, existente, distancia);
             }
         }
-
-       
-        grafo.setAdyacencias(adyacencias);
-    }*/
-    
-    public void agregarLocalidadGrafo(Localidad nuevaLocalidad) {
-        // Verificamos que no exista ya para no duplicar
-        if (!grafo.getAdyacencias().containsKey(nuevaLocalidad)) {
-            // Agregamos la localidad como clave y le creamos una lista de conexiones vacía
-            grafo.getAdyacencias().put(nuevaLocalidad, new ArrayList<Conexion>());
-            System.out.println("Nodo agregado al grafo: " + nuevaLocalidad.getNombre());
-        }
     }
+    
     public void eliminarLocalidadGrafo(int indice) {
     	// 1. Obtenemos la lista de localidades (nodos) del grafo
         List<Localidad> localidades = new ArrayList<>(grafo.getAdyacencias().keySet());

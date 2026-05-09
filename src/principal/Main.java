@@ -20,9 +20,10 @@ public class Main extends JFrame
 		JMapViewer mapa = new JMapViewer();
 		FiberConnection fiberConnection = new FiberConnection();
 		LogicaMapa logicaMapa = new LogicaMapa();
-		logicaMapa.dibujar(mapa);
 		InterfazDatos interfazDatos = new InterfazDatos(mapa, fiberConnection, logicaMapa);
+		interfazDatos.inicializarDatos();
 		interfazDatos.setVisible(true);
+		fiberConnection.getGrafo().imprimirEstadoGrafo();
 	}
 }
 

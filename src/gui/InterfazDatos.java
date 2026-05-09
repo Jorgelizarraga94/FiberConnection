@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import entidades.ControladoraLogica;
 import entidades.Localidad;
 import grafo.Grafo;
+import logica.AlgoritmoAGM;
 import persistencia.ControladoraPersistencia;
 import servicio.FiberConnection;
 import servicio.LogicaMapa;
@@ -43,8 +44,6 @@ public class InterfazDatos extends JFrame {
 	private JMapViewer mapaLocalidadesJMapViewer;
 	private JTable table;
 	private ControladoraLogica controlLogica = new ControladoraLogica();
-	private JComboBox comboBoxLocalidadA;
-	private JComboBox comboBoxLocalidadB;
 
 	public InterfazDatos(JMapViewer mapa, FiberConnection fiberConnection, LogicaMapa logicaMapa) {
 
@@ -55,6 +54,7 @@ public class InterfazDatos extends JFrame {
 	}
 
 	private void initialize() {
+
 		JButton btnEliminar = new JButton("Eliminar");
 		JPanel panel_1 = new JPanel();
 		JScrollPane scrollPane = new JScrollPane();
@@ -62,62 +62,9 @@ public class InterfazDatos extends JFrame {
 		JButton btnAgregar = new JButton("Agregar");
 		JPanel panel = new JPanel();
 		JPanel panel_3 = new JPanel();
-		JLabel lblNewLabel = new JLabel("Costo por KM");
-		JLabel lblNewLabel_1 = new JLabel("Localidad A");
-		JLabel lblNewLabel_1_1 = new JLabel("Localidad B");
 		JTextArea textAreaDistancia = new JTextArea();
 		textAreaDistancia.setEditable(false);
 		textAreaDistancia.setAutoscrolls(false);
-		comboBoxLocalidadA = new JComboBox();
-		comboBoxLocalidadB = new JComboBox();
-
-		getContentPane().addMouseMotionListener(new MouseMotionAdapter() {
-			@Override
-			public void mouseMoved(MouseEvent e) {
-				// 1. Obtenemos los datos de la BD
-				List<String> localidadesLista = controlLogica.getLocalidadesOrdenadas();
-				// 2. Recorremos la lista de String, la transformamos en Objeto Localidad y
-				// agregamos las localidades al grafo
-				for (String linea : localidadesLista) {
-					String[] partes = linea.split(",");
-
-					Localidad loc = new Localidad(Double.parseDouble(partes[0]), Double.parseDouble(partes[1]),
-							partes[2], partes[3]);
-
-					fiberConnection.agregarLocalidadGrafo(
-							new Localidad(loc.getLatitud(), loc.getLongitud(), loc.getProvincia(), loc.getNombre()));
-				}
-				// 3. Actualizamos los combo Box
-				String[] nombres = new String[localidadesLista.size()];
-
-				for (int i = 0; i < localidadesLista.size(); i++) {
-					String[] partes = localidadesLista.get(i).split(",");
-					nombres[i] = partes[3]; // El nombre de la localidad
-				}
-
-				comboBoxLocalidadA.setModel(new DefaultComboBoxModel<>(nombres));
-				comboBoxLocalidadB.setModel(new DefaultComboBoxModel<>(nombres));
-			}
-		});
-
-		JButton btnCalcularCostoKm = new JButton("Calcular");
-		btnCalcularCostoKm.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				List<Localidad> nodos = new ArrayList<>(fiberConnection.getGrafo().getAdyacencias().keySet());
-				System.out.println(nodos.size());
-				if (nodos.size() >= 2) {
-					Localidad puntoA = nodos.get(0);
-					Localidad puntoB = nodos.get(1);
-
-					Double distancia = puntoA.distanciaEntreDosPuntos(puntoB);
-					String distanciaString = String.format("%.2f", distancia);
-					textAreaDistancia.setText(distanciaString);
-
-					System.out.println("Distancia entre " + puntoA.getNombre() + " y " + puntoB.getNombre() + ": "
-							+ distancia + " km");
-				}
-			}
-		});
 		JPanel panel_4 = new JPanel();
 
 		this.setBounds(100, 100, 1366, 768);
@@ -158,7 +105,7 @@ public class InterfazDatos extends JFrame {
 		panel_2.setBounds(1161, 21, 122, 248);
 		getContentPane().add(panel_2);
 		panel_2.setLayout(null);
-
+		// Boton Agregar
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				InterfazAgregarLocalidad interfazAgregarLocalidad = new InterfazAgregarLocalidad(
@@ -170,6 +117,7 @@ public class InterfazDatos extends JFrame {
 		btnAgregar.setBounds(10, 11, 102, 34);
 		panel_2.add(btnAgregar);
 
+		// Boton Eliminar
 		btnEliminar.setEnabled(false);
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -187,7 +135,7 @@ public class InterfazDatos extends JFrame {
 					refrescarTabla();
 
 					// 4. Redibuja el mapa (Lee el .txt actualizado)
-					logicaMapa.dibujar(mapaLocalidadesJMapViewer);
+					logicaMapa.dibujar(mapaLocalidadesJMapViewer, fiberConnection.getGrafo());
 
 					JOptionPane.showMessageDialog(null, "Eliminado con éxito.");
 				}
@@ -208,6 +156,26 @@ public class InterfazDatos extends JFrame {
 		btnEliminar.setBounds(10, 61, 102, 34);
 		panel_2.add(btnEliminar);
 
+		// Boton Calcular Costo
+		JButton btnCalcularCostoKm = new JButton("Calcular");
+		btnCalcularCostoKm.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AlgoritmoAGM agm = new AlgoritmoAGM();
+				Grafo grafoAgm = agm.generarAGM(fiberConnection.getGrafo());
+				logicaMapa.dibujar(mapaLocalidadesJMapViewer, grafoAgm);
+				/*
+				 * List<Localidad> nodos = new
+				 * ArrayList<>(fiberConnection.getGrafo().getAdyacencias().keySet());
+				 * System.out.println(nodos.size()); if (nodos.size() >= 2) { Localidad puntoA =
+				 * nodos.get(0); Localidad puntoB = nodos.get(1);
+				 * 
+				 * Double distancia = puntoA.distanciaEntreDosPuntos(puntoB); String
+				 * distanciaString = String.format("%.2f", distancia);
+				 * textAreaDistancia.setText(distanciaString); }
+				 */
+			}
+		});
+
 		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
 		panel.setBounds(36, 311, 1243, 366);
 		getContentPane().add(panel);
@@ -217,44 +185,24 @@ public class InterfazDatos extends JFrame {
 		panel_3.setBounds(10, 11, 270, 344);
 		panel.add(panel_3);
 		panel_3.setLayout(null);
-
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblNewLabel.setBounds(69, 28, 123, 22);
-		panel_3.add(lblNewLabel);
-
-		lblNewLabel_1.setBounds(20, 99, 79, 14);
-		panel_3.add(lblNewLabel_1);
-
-		lblNewLabel_1_1.setBounds(20, 140, 79, 14);
-		panel_3.add(lblNewLabel_1_1);
-
-		comboBoxLocalidadA.setBounds(123, 91, 123, 22);
-		panel_3.add(comboBoxLocalidadA);
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-		Grafo grafo = fiberConnection.getGrafo();
-		for (Localidad localidad : grafo.getAdyacencias().keySet()) {
 
-		}
-
-		comboBoxLocalidadB.setBounds(123, 136, 123, 22);
-		panel_3.add(comboBoxLocalidadB);
-
-		btnCalcularCostoKm.setBounds(26, 187, 220, 33);
+		btnCalcularCostoKm.setBounds(27, 72, 220, 33);
 		panel_3.add(btnCalcularCostoKm);
 
 		textAreaDistancia.setCaretColor(new Color(255, 255, 255));
 		textAreaDistancia.setBorder(new LineBorder(new Color(0, 0, 0)));
 		textAreaDistancia.setBackground(new Color(255, 255, 255));
-		textAreaDistancia.setBounds(33, 243, 213, 22);
+		textAreaDistancia.setBounds(34, 128, 213, 22);
 		panel_3.add(textAreaDistancia);
-		
+
 		JTextArea textAreaCostoKm = new JTextArea();
 		textAreaCostoKm.setEditable(false);
 		textAreaCostoKm.setCaretColor(Color.WHITE);
 		textAreaCostoKm.setBorder(new LineBorder(new Color(0, 0, 0)));
 		textAreaCostoKm.setBackground(Color.WHITE);
 		textAreaCostoKm.setAutoscrolls(false);
-		textAreaCostoKm.setBounds(33, 282, 213, 22);
+		textAreaCostoKm.setBounds(34, 167, 213, 22);
 		panel_3.add(textAreaCostoKm);
 
 		panel_4.setBounds(290, 11, 931, 344);
@@ -286,23 +234,19 @@ public class InterfazDatos extends JFrame {
 		}
 	}
 
-	public void refrescarCombos() {
-		// Obtenemos el grafo desde la lógica
-		Grafo grafoActual = fiberConnection.getGrafo();
+	public void inicializarDatos() {
+		// 1. Obtenemos los datos de la BD
+		List<String> localidadesLista = controlLogica.getLocalidadesOrdenadas();
+		// 2. Recorremos la lista de String, la transformamos en Objeto Localidad y
+		// agregamos las localidades al grafo
+		for (String linea : localidadesLista) {
+			String[] partes = linea.split(",");
 
-		// Obtenemos la lista de objetos Localidad reales
-		List<Localidad> localidades = grafoActual.obtenerLocalidades();
+			Localidad loc = new Localidad(Double.parseDouble(partes[0]), Double.parseDouble(partes[1]), partes[2],
+					partes[3]);
 
-		// Creamos los modelos para los combos
-		DefaultComboBoxModel<Localidad> modeloA = new DefaultComboBoxModel<>();
-		DefaultComboBoxModel<Localidad> modeloB = new DefaultComboBoxModel<>();
-
-		for (Localidad localidad : localidades) {
-			modeloA.addElement(localidad);
+			fiberConnection.construirGrafo(loc);
 		}
-
-		// Asignamos los modelos a los combos de la interfaz
-		comboBoxLocalidadA.setModel(modeloA);
-		comboBoxLocalidadB.setModel(modeloB);
+		logicaMapa.dibujar(mapaLocalidadesJMapViewer, fiberConnection.getGrafo());
 	}
 }

@@ -13,7 +13,6 @@ import java.util.List;
 import entidades.Localidad;
 
 
-
 public class ControladoraPersistencia {
 	// ================== OBTENER ARCHIVO ==================
     private static File getArchivo() {

@@ -111,7 +111,7 @@ public class GrafoTest{
 	@Test
 	void obtenerPesoTest() {
 		
-		grafo4.agregarConexion(sanMiguel, bellaVista, 10);
+		grafo4.agregarConexion(sanMiguel, bellaVista, 10.0);
 
 		assertEquals(grafo4.obtenerPeso(sanMiguel, bellaVista), 10);
 	}
@@ -119,8 +119,8 @@ public class GrafoTest{
 	@Test
 	void eliminarAristaTest() {
 		
-		grafo4.agregarConexion(sanMiguel, bellaVista,  0);
-		grafo4.agregarConexion(sanMiguel, joseCPaz,  0);
+		grafo4.agregarConexion(sanMiguel, bellaVista,  0.0);
+		grafo4.agregarConexion(sanMiguel, joseCPaz,  0.0);
 		
 		grafo4.eliminarConexion(sanMiguel, bellaVista);
 		
