@@ -17,8 +17,8 @@ public class ControladoraLogica {
 		return controladoraPersistencia.traerLocalidades();
 	}
 	
-	public List<String> getLocalidadesOrdenadas(){
-		return controladoraPersistencia.traerLocalidadesOrdenadas();
+	public String GetlocalidadNombre(int id) {
+		return controladoraPersistencia.getLocalidad(id);
 	}
 	
 	public void deleteSeleccionado(int seleccionado) {

@@ -89,7 +89,7 @@ public class InterfazDatos extends JFrame {
 				new String[] { "Latitud", "Longitud", "Provincia", "Localidad" }));
 		scrollPane.setViewportView(table);
 
-		List<String> datos = controlLogica.getLocalidadesOrdenadas();
+		List<String> datos = controlLogica.getLocalidades();
 		String[][] datosLocalidades = new String[datos.size()][4];
 		for (int i = 0; i < datos.size(); i++) {
 			String[] partes = datos.get(i).split(",");
@@ -122,7 +122,6 @@ public class InterfazDatos extends JFrame {
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int filaSeleccionada = table.getSelectedRow();
-
 				if (filaSeleccionada != -1) {
 					// 1. Borra físicamente del .txt y de la lista lógica
 					controlLogica.deleteSeleccionado(filaSeleccionada);
@@ -163,16 +162,7 @@ public class InterfazDatos extends JFrame {
 				AlgoritmoAGM agm = new AlgoritmoAGM();
 				Grafo grafoAgm = agm.generarAGM(fiberConnection.getGrafo());
 				logicaMapa.dibujar(mapaLocalidadesJMapViewer, grafoAgm);
-				/*
-				 * List<Localidad> nodos = new
-				 * ArrayList<>(fiberConnection.getGrafo().getAdyacencias().keySet());
-				 * System.out.println(nodos.size()); if (nodos.size() >= 2) { Localidad puntoA =
-				 * nodos.get(0); Localidad puntoB = nodos.get(1);
-				 * 
-				 * Double distancia = puntoA.distanciaEntreDosPuntos(puntoB); String
-				 * distanciaString = String.format("%.2f", distancia);
-				 * textAreaDistancia.setText(distanciaString); }
-				 */
+
 			}
 		});
 
@@ -226,7 +216,7 @@ public class InterfazDatos extends JFrame {
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 		modelo.setRowCount(0);
 
-		List<String> datosNuevos = controlLogica.getLocalidadesOrdenadas();
+		List<String> datosNuevos = controlLogica.getLocalidades();
 
 		for (String linea : datosNuevos) {
 			String[] campos = linea.split(",");
@@ -236,7 +226,7 @@ public class InterfazDatos extends JFrame {
 
 	public void inicializarDatos() {
 		// 1. Obtenemos los datos de la BD
-		List<String> localidadesLista = controlLogica.getLocalidadesOrdenadas();
+		List<String> localidadesLista = controlLogica.getLocalidades();
 		// 2. Recorremos la lista de String, la transformamos en Objeto Localidad y
 		// agregamos las localidades al grafo
 		for (String linea : localidadesLista) {

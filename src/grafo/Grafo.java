@@ -28,27 +28,7 @@ public class Grafo {
     public Map<Localidad, List<Conexion>> getAdyacencias() {
         return adyacencias;
     }
-    
-   private Localidad calcularDistanciaMinima(Localidad localidadActual) {
-	   Localidad localidadMinima = null;
-	    double distanciaMinima = Double.MAX_VALUE; 
-	    
-	    for (Localidad loc : adyacencias.keySet()) {
-	        // Evitamos compararnos con nosotros mismos
-	        if (loc.equals(localidadActual)) {
-	            continue;
-	        }
-
-	        double distancia = localidadActual.distanciaEntreDosPuntos(loc);
-	        
-	        if (distancia < distanciaMinima) {
-	            distanciaMinima = distancia;
-	            localidadMinima = loc;
-	        }
-	    }
-	    return localidadMinima; // Puede ser null si el grafo solo tiene 1 nodo
-   }
-
+ 
     public void setAdyacencias(Map<Localidad, List<Conexion>> adyacencias) {
         this.adyacencias = adyacencias;
     }
@@ -123,20 +103,5 @@ public class Grafo {
 	public Array resultadoArbolMinimo() {
 		ArrayList <AlgoritmoAGM> arbolMinimo = new ArrayList <AlgoritmoAGM>();
 		return null;
-	}
-
-	public void agregarAdyacenciaMinima(Localidad localidad) {
-		Localidad localidadMinima = calcularDistanciaMinima(localidad);
-	    
-	    // Solo intentamos conectar si encontramos un vecino (localidadMinima != null)
-	    if (localidadMinima != null) {
-	        double distancia = localidad.distanciaEntreDosPuntos(localidadMinima);
-	        agregarConexion(localidad, localidadMinima, distancia);            
-	    } else {
-	        // Si es la primera localidad, solo nos aseguramos de que esté en el mapa
-	        if (!adyacencias.containsKey(localidad)) {
-	            adyacencias.put(localidad, new ArrayList<>());
-	        }
-	    }
 	}
 }

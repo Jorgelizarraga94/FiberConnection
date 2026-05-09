@@ -23,7 +23,6 @@ public class Main extends JFrame
 		InterfazDatos interfazDatos = new InterfazDatos(mapa, fiberConnection, logicaMapa);
 		interfazDatos.inicializarDatos();
 		interfazDatos.setVisible(true);
-		fiberConnection.getGrafo().imprimirEstadoGrafo();
 	}
 }
 

@@ -52,24 +52,6 @@ public class ControladoraPersistencia {
         return lista;
     }
 
-    // ================== ORDENAR ==================
-    public List<String> traerLocalidadesOrdenadas() {
-    	
-        List<String> datos = traerLocalidades();
-
-        datos.sort((a, b) -> {
-            String[] datosA = a.split(",");
-            String[] datosB= b.split(",");
-            
-            String longitudA = datosA[2];
-            String longitudB = datosB[2];
-
-            return longitudA.compareTo(longitudB); 
-        });
-
-        return datos;
-    }
-
     public void eliminarSeleccionado(int selectedRow) {
         File archivo = getArchivo();
         List<String> lineasRestantes = new ArrayList<>();
@@ -90,5 +72,11 @@ public class ControladoraPersistencia {
             e.printStackTrace();
         }
     }
+
+	public String getLocalidad(int id) {
+		List<String> localidadStrings = traerLocalidades();
+		String localidadNombre = localidadStrings.get(id);
+		return localidadNombre;
+	}
 }
 
