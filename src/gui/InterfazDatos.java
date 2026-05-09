@@ -141,8 +141,24 @@ public class InterfazDatos extends JFrame {
 		btnEliminar.setEnabled(false);
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controlLogica.deleteSeleccionado(table.getSelectedRow());
-				refrescarTabla();
+				int filaSeleccionada = table.getSelectedRow();
+
+				if (filaSeleccionada != -1) {
+					// 1. Borra físicamente del .txt y de la lista lógica
+					controlLogica.deleteSeleccionado(filaSeleccionada);
+
+					// 2. Limpia el Grafo en memoria para que coincida con el disco
+					// Es vital que fiberConnection también pierda ese nodo
+					fiberConnection.eliminarLocalidadGrafo(filaSeleccionada);
+
+					// 3. Refresca la tabla (Vista)
+					refrescarTabla();
+
+					// 4. Redibuja el mapa (Lee el .txt actualizado)
+					logicaMapa.dibujar(mapaLocalidadesJMapViewer);
+
+					JOptionPane.showMessageDialog(null, "Eliminado con éxito.");
+				}
 			}
 		});
 

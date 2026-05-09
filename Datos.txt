@@ -1,4 +1,2 @@
 -34.543159,-58.711774,Buenos Aires,San Miguel
-123.0,123.0,Cordoba,Cordoba
-123.0,123.0,cordoba,cordoba
-333.0,333.0,MENDOZA,mendoza
+-31.40628337543036,-64.19526712683077,Cordoba,Cordoba

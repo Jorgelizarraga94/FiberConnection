@@ -40,7 +40,7 @@ public class Grafo {
     public List<Localidad> obtenerLocalidades() {
         return adyacencias.keySet().stream().toList();
     }
-
+    
     
     //Devuelve conexiones de una localidad
     

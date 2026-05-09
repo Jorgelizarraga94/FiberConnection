@@ -114,12 +114,8 @@ public class InterfazAgregarLocalidad extends JFrame {
 					interfazDatos.refrescarTabla();
 					interfazDatos.refrescarCombos();
 					
-					logicaMapa.dibujarGrafo(fiberConnection.obtenerLocalidades(),
-							fiberConnection.obtenerTodasLasConexiones(), mapaLocalidadesJMapViewer);
-
-					mapaLocalidadesJMapViewer.revalidate();
-					mapaLocalidadesJMapViewer.repaint();
-
+					logicaMapa.dibujar(mapaLocalidadesJMapViewer);
+					
 					JOptionPane.showMessageDialog(null, "Localidad agregada: " + nombre);
 					dispose();
 

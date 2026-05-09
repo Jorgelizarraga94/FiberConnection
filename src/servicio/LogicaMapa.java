@@ -56,6 +56,8 @@ public class LogicaMapa {
 		    );
 		    listaDeLocalidadesList.add(loc);
 		}
+		mapa.removeAllMapMarkers(); 
+	    mapa.removeAllMapPolygons();
 		dibujarGrafo(listaDeLocalidadesList, null, mapa);
 	}
 	

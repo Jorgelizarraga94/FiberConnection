@@ -66,6 +66,16 @@ public class FiberConnection {
             System.out.println("Nodo agregado al grafo: " + nuevaLocalidad.getNombre());
         }
     }
+    public void eliminarLocalidadGrafo(int indice) {
+    	// 1. Obtenemos la lista de localidades (nodos) del grafo
+        List<Localidad> localidades = new ArrayList<>(grafo.getAdyacencias().keySet());
+        // 2. Verificamos que el índice sea válido para evitar errores
+        if (indice >= 0 && indice < localidades.size()) {
+            Localidad localidadAEliminar = localidades.get(indice);
+            // 3. Eliminamos la localidad del mapa de adyacencias
+            grafo.getAdyacencias().remove(localidadAEliminar);
+    	}
+    }
 
     
     //Devuelve todas las conexiones del grafo en una sola lista
