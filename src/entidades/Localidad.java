@@ -62,6 +62,22 @@ public class Localidad {
     public Coordinate getCordenadasLocalidad() {
         return new Coordinate(latitud, longitud);
     }
+    
+    //Fórmula de Haversine
+    public double distanciaEntreDosPuntos(Localidad otra) {
+        final int R = 6371; // Radio de la Tierra en km
+
+        double dLat = Math.toRadians(otra.getLatitud() - this.latitud);
+        double dLon = Math.toRadians(otra.getLongitud() - this.longitud);
+
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                   Math.cos(Math.toRadians(this.latitud)) * Math.cos(Math.toRadians(otra.getLatitud())) *
+                   Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return R * c;
+    }
 
     @Override
     public String toString() {

@@ -86,6 +86,22 @@ public class InterfazDatos extends JFrame {
 		});
 
 		JButton btnCalcularCostoKm = new JButton("Calcular");
+		btnCalcularCostoKm.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Convertimos el set de llaves a una lista para acceder por posición
+				List<Localidad> nodos = new ArrayList<>(fiberConnection.getGrafo().getAdyacencias().keySet());
+				System.out.println(nodos.size());
+				if (nodos.size() >= 2) {
+					Localidad puntoA = nodos.get(0);
+					Localidad puntoB = nodos.get(1);
+
+					// Calculamos la distancia usando el método que agregaste a Localidad
+					double distancia = puntoA.distanciaEntreDosPuntos(puntoB);
+					System.out.println("Distancia entre " + puntoA.getNombre() + " y " + puntoB.getNombre() + ": "
+							+ distancia + " km");
+				}
+			}
+		});
 		JPanel panel_4 = new JPanel();
 
 		this.setBounds(100, 100, 1366, 768);
