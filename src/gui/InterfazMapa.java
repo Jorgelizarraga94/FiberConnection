@@ -51,6 +51,8 @@ public class InterfazMapa extends JPanel {
         return mapa;
     }
 	
+	
+	
 	//Hacer visible el mapa
 	public void setVisible(boolean b) {
 		frame.setVisible(b);

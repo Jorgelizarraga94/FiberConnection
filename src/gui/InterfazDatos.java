@@ -62,9 +62,13 @@ public class InterfazDatos extends JFrame {
 		JButton btnAgregar = new JButton("Agregar");
 		JPanel panel = new JPanel();
 		JPanel panel_3 = new JPanel();
-		JTextArea textAreaDistancia = new JTextArea();
-		textAreaDistancia.setEditable(false);
-		textAreaDistancia.setAutoscrolls(false);
+		JButton btnCalcularCosto = new JButton("CALCULAR CONEXIONES");
+		JLabel lblKmTotalesConexion = new JLabel("TOTAL CONEXIÓN");
+		JTextArea textAreaCostoTotal = new JTextArea();
+		JLabel lblCostoTotal = new JLabel("COSTO TOTAL");
+		JTextArea textAreaKmTotales = new JTextArea();
+		textAreaKmTotales.setEditable(false);
+		textAreaKmTotales.setAutoscrolls(false);
 		JPanel panel_4 = new JPanel();
 
 		this.setBounds(100, 100, 1366, 768);
@@ -105,6 +109,48 @@ public class InterfazDatos extends JFrame {
 		panel_2.setBounds(1161, 21, 122, 248);
 		getContentPane().add(panel_2);
 		panel_2.setLayout(null);
+
+		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
+		panel.setBounds(36, 311, 1243, 366);
+		getContentPane().add(panel);
+		panel.setLayout(null);
+
+		panel_3.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
+		panel_3.setBounds(10, 11, 270, 344);
+		panel.add(panel_3);
+		panel_3.setLayout(null);
+		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+
+		btnCalcularCosto.setBounds(27, 72, 220, 33);
+		panel_3.add(btnCalcularCosto);
+
+		textAreaKmTotales.setCaretColor(new Color(255, 255, 255));
+		textAreaKmTotales.setBorder(new LineBorder(new Color(0, 0, 0)));
+		textAreaKmTotales.setBackground(new Color(255, 255, 255));
+		textAreaKmTotales.setBounds(140, 128, 107, 25);
+		panel_3.add(textAreaKmTotales);
+
+		lblKmTotalesConexion.setBounds(30, 132, 101, 14);
+		panel_3.add(lblKmTotalesConexion);
+
+		textAreaCostoTotal.setEditable(false);
+		textAreaCostoTotal.setCaretColor(Color.WHITE);
+		textAreaCostoTotal.setBorder(new LineBorder(new Color(0, 0, 0)));
+		textAreaCostoTotal.setBackground(Color.WHITE);
+		textAreaCostoTotal.setAutoscrolls(false);
+		textAreaCostoTotal.setBounds(114, 171, 133, 25);
+		panel_3.add(textAreaCostoTotal);
+
+		lblCostoTotal.setBounds(27, 175, 82, 14);
+		panel_3.add(lblCostoTotal);
+
+		panel_4.setBounds(290, 11, 931, 344);
+		panel.add(panel_4);
+		panel_4.setLayout(new BorderLayout(0, 0));
+
+		InterfazMapa interfazMapa = new InterfazMapa(mapaLocalidadesJMapViewer);
+		panel_4.add(interfazMapa, BorderLayout.CENTER);
+
 		// Boton Agregar
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -133,8 +179,7 @@ public class InterfazDatos extends JFrame {
 					// 3. Refresca la tabla (Vista)
 					refrescarTabla();
 
-					// 4. Redibuja el mapa (Lee el .txt actualizado)
-					logicaMapa.dibujar(mapaLocalidadesJMapViewer, fiberConnection.getGrafo());
+					logicaMapa.actualizarMapa(fiberConnection.getGrafo(), mapaLocalidadesJMapViewer);
 
 					JOptionPane.showMessageDialog(null, "Eliminado con éxito.");
 				}
@@ -156,51 +201,17 @@ public class InterfazDatos extends JFrame {
 		panel_2.add(btnEliminar);
 
 		// Boton Calcular Costo
-		JButton btnCalcularCostoKm = new JButton("Calcular");
-		btnCalcularCostoKm.addActionListener(new ActionListener() {
+
+		btnCalcularCosto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AlgoritmoAGM agm = new AlgoritmoAGM();
 				Grafo grafoAgm = agm.generarAGM(fiberConnection.getGrafo());
 				logicaMapa.dibujar(mapaLocalidadesJMapViewer, grafoAgm);
 
+				textAreaKmTotales.setText(String.format("%.2f", fiberConnection.calcularKmTotales(grafoAgm)) + " KM");
+				textAreaCostoTotal.setText("$" + String.format("%.2f", fiberConnection.calcularPresupuesto(grafoAgm)));
 			}
 		});
-
-		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
-		panel.setBounds(36, 311, 1243, 366);
-		getContentPane().add(panel);
-		panel.setLayout(null);
-
-		panel_3.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
-		panel_3.setBounds(10, 11, 270, 344);
-		panel.add(panel_3);
-		panel_3.setLayout(null);
-		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-
-		btnCalcularCostoKm.setBounds(27, 72, 220, 33);
-		panel_3.add(btnCalcularCostoKm);
-
-		textAreaDistancia.setCaretColor(new Color(255, 255, 255));
-		textAreaDistancia.setBorder(new LineBorder(new Color(0, 0, 0)));
-		textAreaDistancia.setBackground(new Color(255, 255, 255));
-		textAreaDistancia.setBounds(34, 128, 213, 22);
-		panel_3.add(textAreaDistancia);
-
-		JTextArea textAreaCostoKm = new JTextArea();
-		textAreaCostoKm.setEditable(false);
-		textAreaCostoKm.setCaretColor(Color.WHITE);
-		textAreaCostoKm.setBorder(new LineBorder(new Color(0, 0, 0)));
-		textAreaCostoKm.setBackground(Color.WHITE);
-		textAreaCostoKm.setAutoscrolls(false);
-		textAreaCostoKm.setBounds(34, 167, 213, 22);
-		panel_3.add(textAreaCostoKm);
-
-		panel_4.setBounds(290, 11, 931, 344);
-		panel.add(panel_4);
-		panel_4.setLayout(new BorderLayout(0, 0));
-
-		InterfazMapa interfazMapa = new InterfazMapa(mapaLocalidadesJMapViewer);
-		panel_4.add(interfazMapa, BorderLayout.CENTER);
 
 	}
 

@@ -8,6 +8,9 @@ public class Conexion {
 	private Localidad destino;
 	private Double km;
 	
+	private final Double COSTO_POR_KM = 20000.00;
+    private final Double SOBRECOSTO_PROVINCIA_DISTINTA = 50000.00;
+	
 	
 	public Conexion(Localidad origen, Localidad destino, Double km) {
 		this.origen = origen;
@@ -39,9 +42,33 @@ public class Conexion {
     public Coordinate getCoordenadasDestino() {
     	return destino.getCordenadasLocalidad();
     }
-    
-    
-    @Override
+
+	public double getCostoBaseConexion() {
+	    double costo = this.km * COSTO_POR_KM;
+	    
+	    if (!origen.getProvincia().equals(destino.getProvincia())) {
+	        costo += SOBRECOSTO_PROVINCIA_DISTINTA;
+	    }
+	    return costo;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+	    if (this == obj) return true;
+	    if (obj == null || getClass() != obj.getClass()) return false;
+	    Conexion otra = (Conexion) obj;
+	    
+	    // Es la misma conexión si (A==A y B==B) O (A==B y B==A)
+	    return (origen.equals(otra.origen) && destino.equals(otra.destino)) ||
+	           (origen.equals(otra.destino) && destino.equals(otra.origen));
+	}
+
+	@Override
+	public int hashCode() {
+	    // Sumamos los hashCodes para que el orden no altere el resultado
+	    return origen.hashCode() + destino.hashCode();
+	}
+	@Override
     public String toString() {
         return origen.getNombre() + " - " + destino.getNombre();
     }

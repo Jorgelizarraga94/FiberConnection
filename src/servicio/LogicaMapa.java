@@ -39,4 +39,18 @@ public class LogicaMapa {
 	    }
 	}
 	
+	public void actualizarMapa(Grafo grafoActual, JMapViewer mapa) {
+	    // 1. Limpiamos TODO lo que tiene el mapa (puntos y líneas)
+	    mapa.removeAllMapMarkers();
+	    mapa.removeAllMapPolygons();
+	    
+	    // 2. Volvemos a llamar a tu función de dibujo original
+	    // Esta función debe recorrer el grafo y agregar los marcadores de las localidades que QUEDAN
+	    dibujar(mapa, grafoActual);
+	    
+	    // 3. Forzamos a Swing a redibujar el componente
+	    mapa.repaint();
+	    mapa.revalidate();
+	}
+	
 }

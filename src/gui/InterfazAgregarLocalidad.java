@@ -110,12 +110,12 @@ public class InterfazAgregarLocalidad extends JFrame {
 					cargarTabla(fiberConnection.getGrafo().obtenerLocalidades().get(0));
 					//4-Guardamos datos en Base de datos
 					controladoraLogica.saveLocalidad(latit, longit, provincia, nombre);
-					//Refrescamos interfaz tabla y comboBox
+					//Refrescamos interfaz tabla
 					interfazDatos.refrescarTabla();
 					//ESTA LLAMADA A INICIALIZAR CREEMOS QUE ESTA RARA
 					interfazDatos.inicializarDatos();
 					
-					logicaMapa.dibujar(mapaLocalidadesJMapViewer,fiberConnection.getGrafo());
+					logicaMapa.actualizarMapa(fiberConnection.getGrafo(), mapaLocalidadesJMapViewer);
 					
 					JOptionPane.showMessageDialog(null, "Localidad agregada: " + nombre);
 					dispose();

@@ -5,11 +5,14 @@ import gui.InterfazDatos;
 import entidades.Conexion;
 import entidades.Localidad;
 
+import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.DefaultComboBoxModel;
 
@@ -19,6 +22,7 @@ public class FiberConnection {
 
     private Grafo grafo;
     private static Grafo grafoTest;
+    
 
     public FiberConnection() {
         this.grafo = new Grafo();
@@ -73,10 +77,52 @@ public class FiberConnection {
                 }
             }
         }
-
         return todas;
     }
+    
+    public Set<Conexion> obtenerAristasUnicas(Grafo grafo) {
+        Set<Conexion> aristasUnicas = new HashSet<>();
+        for (List<Conexion> lista : grafo.getAdyacencias().values()) {
+            aristasUnicas.addAll(lista);
+        }
+        return aristasUnicas; 
+        // Como el Set usa el equals/hashCode que definimos, 
+        // automáticamente elimina los duplicados bidireccionales.
+    }
+    
+    public Double calcularKmTotales(Grafo agm) {
+        Double totalKm = 0.0;
+        
+        // 1. Obtenemos solo una arista por cada par de ciudades conectadas
+        Set<Conexion> aristasSinRepetir = obtenerAristasUnicas(agm);
+        
+        // 2. Sumamos el kilometraje de cada cable de fibra óptica
+        for (Conexion con : aristasSinRepetir) {
+            totalKm += con.getKm();
+        }
+        
+        // Retornamos el total (podes usar Math.round si queres redondear)
+        return totalKm;
+    }
+    
+    public Double calcularPresupuesto(Grafo agm) {
+        double kmTotales = calcularKmTotales(agm);
+        double costoBaseTotal = 0;
+        
+        // Sumamos los costos base de las aristas únicas
+        for (Conexion con : obtenerAristasUnicas(agm)) {
+            costoBaseTotal += con.getCostoBaseConexion();
+        }
+        
+        // Aplicamos el recargo si la obra supera los 300 km
+        if (kmTotales > 300) {
+            // Suponiendo un 10% de recargo
+            costoBaseTotal += (costoBaseTotal * 0.10); 
+        }
+        return costoBaseTotal;
+    }
 
+    
    
     //Devuelve todas las localidades cargadas.
     
