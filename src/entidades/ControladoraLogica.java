@@ -24,4 +24,11 @@ public class ControladoraLogica {
 	public void deleteSeleccionado(int seleccionado) {
 		controladoraPersistencia.eliminarSeleccionado(seleccionado);
 	}
+	public Localidad convertirListaAobjetoLocalidad(String linea){
+		String[] partes = linea.split(",");
+
+		Localidad loc = new Localidad(Double.parseDouble(partes[0]), Double.parseDouble(partes[1]), partes[2],
+				partes[3]);
+		return loc;
+	}
 }

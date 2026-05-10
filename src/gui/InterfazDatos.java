@@ -6,7 +6,6 @@ import javax.swing.JTextField;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-
 import entidades.ControladoraLogica;
 import entidades.Localidad;
 import grafo.Grafo;
@@ -101,9 +100,8 @@ public class InterfazDatos extends JFrame {
 			datosLocalidades[i][1] = partes[1];
 			datosLocalidades[i][2] = partes[2];
 			datosLocalidades[i][3] = partes[3];
-
-			cargarTabla(datosLocalidades);
 		}
+		cargarTabla(datosLocalidades);
 
 		panel_2.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
 		panel_2.setBounds(1161, 21, 122, 248);
@@ -241,11 +239,7 @@ public class InterfazDatos extends JFrame {
 		// 2. Recorremos la lista de String, la transformamos en Objeto Localidad y
 		// agregamos las localidades al grafo
 		for (String linea : localidadesLista) {
-			String[] partes = linea.split(",");
-
-			Localidad loc = new Localidad(Double.parseDouble(partes[0]), Double.parseDouble(partes[1]), partes[2],
-					partes[3]);
-
+			Localidad loc = controlLogica.convertirListaAobjetoLocalidad(linea);
 			fiberConnection.construirGrafo(loc);
 		}
 		logicaMapa.dibujar(mapaLocalidadesJMapViewer, fiberConnection.getGrafo());
