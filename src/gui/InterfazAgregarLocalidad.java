@@ -30,8 +30,10 @@ public class InterfazAgregarLocalidad extends JFrame {
 	private LogicaMapa logicaMapa;
 	private InterfazDatos interfazDatos;
 	private JTable tabla;
-	private List<Localidad> localidades = new ArrayList<>();
 	private ControladoraLogica controladoraLogica = new ControladoraLogica();
+	
+	private List<Localidad> localidades = new ArrayList<>();
+	
 	public InterfazAgregarLocalidad(JMapViewer mapaLocalidadesJMapViewer, FiberConnection fiberConnection,
 			LogicaMapa logicaMapa, JTable table, InterfazDatos interfazDatos) {
 		this.logicaMapa = logicaMapa;
@@ -41,42 +43,60 @@ public class InterfazAgregarLocalidad extends JFrame {
 		this.interfazDatos = interfazDatos;
 		this.initialize();
 	}
+	
 	private void initialize() {
+		JPanel panel = new JPanel();
+		JLabel titulo = new JLabel("Carga de Localidades");
+		JLabel lblNom = new JLabel("Localidad");
+		JLabel lblProv = new JLabel("Provincia");
+		JLabel lblLon = new JLabel("Longitud");
+		JLabel lblLat = new JLabel("Latitud");
+		JButton btnAgregarLocalidad = new JButton("Agregar");
+		
+		longitud = new JTextField();
+		nombreLocalidad = new JTextField();
+		latitud = new JTextField();
+		prov = new JTextField();
+		
+		//Configuración diseño Frame
 		this.setBounds(100, 100, 472, 303);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		JPanel panel = new JPanel();
+			
 		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
 		panel.setBounds(10, 11, 231, 248);
 		getContentPane().add(panel);
 		panel.setLayout(null);
-		JLabel titulo = new JLabel("Carga de Localidades");
+		
 		titulo.setBounds(164, 23, 128, 20);
 		panel.add(titulo);
-		latitud = new JTextField();
+		
 		latitud.setBounds(199, 54, 120, 20);
 		panel.add(latitud);
-		longitud = new JTextField();
+		
 		longitud.setBounds(199, 85, 120, 20);
 		panel.add(longitud);
-		prov = new JTextField();
+		
 		prov.setBounds(199, 116, 120, 20);
 		panel.add(prov);
-		nombreLocalidad = new JTextField();
+		
 		nombreLocalidad.setBounds(199, 147, 120, 20);
-		panel.add(nombreLocalidad);
-		JLabel lblNom = new JLabel("Localidad");
+		
+		//Labels
 		lblNom.setBounds(109, 150, 80, 14);
-		panel.add(lblNom);
-		JLabel lblProv = new JLabel("Provincia");
-		lblProv.setBounds(109, 119, 80, 14);
-		panel.add(lblProv);
-		JLabel lblLon = new JLabel("Longitud");
+		lblProv.setBounds(109, 119, 80, 14);	
 		lblLon.setBounds(109, 88, 80, 14);
-		panel.add(lblLon);
-		JLabel lblLat = new JLabel("Latitud");
 		lblLat.setBounds(109, 57, 80, 14);
+		
+		//Agregado de Objetos a Panel
+		panel.add(lblLon);
+		panel.add(lblProv);
+		panel.add(lblNom);
 		panel.add(lblLat);
-		JButton btnAgregarLocalidad = new JButton("Agregar");
+		panel.add(nombreLocalidad);
+		panel.add(btnAgregarLocalidad);
+		
+		//Boton AgregarLocalidad
+		btnAgregarLocalidad.setBounds(109, 196, 210, 34);
 		btnAgregarLocalidad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -86,7 +106,6 @@ public class InterfazAgregarLocalidad extends JFrame {
 					double longit = Double.parseDouble(longitud.getText());
 					fiberConnection.construirGrafo(new Localidad(latit, longit, provincia, nombre));
 					cargarTabla(fiberConnection.getGrafo().obtenerLocalidades().get(0));
-					controladoraLogica.saveLocalidad(latit, longit, provincia, nombre);
 					interfazDatos.refrescarTabla();
 					interfazDatos.inicializarDatos();
 					logicaMapa.actualizarMapa(fiberConnection.getGrafo(), mapaLocalidadesJMapViewer);
@@ -96,10 +115,9 @@ public class InterfazAgregarLocalidad extends JFrame {
 					JOptionPane.showMessageDialog(null, "Error: Latitud y Longitud deben ser números.");
 				}
 			}
-		});
-		btnAgregarLocalidad.setBounds(109, 196, 210, 34);
-		panel.add(btnAgregarLocalidad);
+		});	
 	}
+	
 	public void cargarTabla(Localidad localidad) {
 		DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
 		Object[] nuevaFila = {localidad.getLatitud(), localidad.getLongitud(), localidad.getProvincia(), localidad.getNombre()};

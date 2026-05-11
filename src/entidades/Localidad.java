@@ -15,33 +15,45 @@ public class Localidad {
         this.nombreLocalidad = nombre;
         this.provincia = provincia;
     }
+    
 	public String getNombre() {
         return nombreLocalidad;
     }
+	
     public void setNombre(String nombre) {
         this.nombreLocalidad = nombre;
     }
+    
     public String getProvincia() {
         return provincia;
     }
+    
     public void setProvincia(String provincia) {
         this.provincia = provincia;
     }
+    
     public double getLatitud() {
         return latitud;
     }
+    
     public void setLatitud(double latitud) {
         this.latitud = latitud;
     }
+    
     public double getLongitud() {
         return longitud;
     }
+    
     public void setLongitud(double longitud) {
         this.longitud = longitud;
     }
+    
     public Coordinate getCordenadasLocalidad() {
         return new Coordinate(latitud, longitud);
     }
+    
+    /*Fórmula de Haversine para sacar la distancia entre 
+    dos puntos a traves de sus latitudes y longitudes*/
     public double distanciaEntreDosPuntos(Localidad otra) {
         final int R = 6371; 
         double dLat = Math.toRadians(otra.getLatitud() - this.latitud);
@@ -50,6 +62,7 @@ public class Localidad {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c;
     }
+    
     @Override
     public String toString() {
         return "Localidad{" +
@@ -59,6 +72,7 @@ public class Localidad {
                 ", longitud=" + longitud +
                 '}';
     }
+  //Se sobreescriben los metodos equals y hashcode para poder hacer comparaciones correctamente.
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

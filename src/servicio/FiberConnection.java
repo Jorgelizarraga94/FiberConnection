@@ -2,6 +2,7 @@ package servicio;
 import grafo.Grafo;
 import gui.InterfazDatos;
 import entidades.Conexion;
+import entidades.ControladoraLogica;
 import entidades.Localidad;
 import java.security.PrivateKey;
 import java.util.ArrayList;
@@ -17,8 +18,12 @@ import javax.swing.DefaultComboBoxModel;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 
 public class FiberConnection {
+	
     private Grafo grafo;
-	private static Grafo grafoTest = new Grafo();
+	private static Grafo grafoTest;
+	
+	private ControladoraLogica controlLogica = new ControladoraLogica();
+	
     public FiberConnection() {
         this.grafo = new Grafo();
         this.grafoTest = new Grafo(); 
@@ -26,6 +31,7 @@ public class FiberConnection {
     public Grafo getGrafo() {
         return grafo;
     } 
+    
     public void construirGrafo(Localidad localidad) {
         if (!grafo.getAdyacencias().containsKey(localidad)) {
             grafo.getAdyacencias().put(localidad, new ArrayList<Conexion>());
@@ -43,6 +49,7 @@ public class FiberConnection {
         if (indice >= 0 && indice < localidades.size()) {
             Localidad localidadAEliminar = localidades.get(indice);
             grafo.getAdyacencias().remove(localidadAEliminar);
+            
     	}
     }
 
@@ -88,17 +95,21 @@ public class FiberConnection {
         }
         return costoBaseTotal;
     }
+    
     public List<Localidad> obtenerLocalidades() {
         return new ArrayList<>(grafo.getAdyacencias().keySet());
     }
+    
 	public static boolean estaConectado(Coordinate coordenada1, Coordinate coordenada2) {
 		boolean conectado = false;
 		return conectado;
 	}
+	
 	public static boolean verificarDistintosTamanios(Grafo grafo) {
 		boolean tamanioCorrecto = false;
 		return tamanioCorrecto;
 	}
+	
 	public static boolean verificarNodoLocalidad(Grafo grafo) {
 		boolean nodoCorrecto = false;
 		return nodoCorrecto;
@@ -166,4 +177,4 @@ public class FiberConnection {
         }
         return grafoTest.obtenerLocalidades();
     }
-	}
+}

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 public class LogicaMapa {
+	
 	public void dibujar(JMapViewer mapa, Grafo grafo) {
 	    mapa.removeAllMapMarkers(); 
 	    mapa.removeAllMapPolygons();
@@ -16,6 +17,7 @@ public class LogicaMapa {
 	        Coordinate coord = new Coordinate(loc.getLatitud(), loc.getLongitud());
 	        MapMarkerDot marcador = new MapMarkerDot(loc.getNombre(), coord);
 	        mapa.addMapMarker(marcador);
+	        
 	        for (Conexion con : grafo.obtenerConexiones(loc)) {
 	            Localidad destino = con.getDestino();
 	            Coordinate coordDestino = new Coordinate(destino.getLatitud(), destino.getLongitud());
@@ -25,6 +27,7 @@ public class LogicaMapa {
 	        }
 	    }
 	}
+	
 	public void actualizarMapa(Grafo grafoActual, JMapViewer mapa) {
 	    mapa.removeAllMapMarkers();
 	    mapa.removeAllMapPolygons();

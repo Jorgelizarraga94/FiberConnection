@@ -7,10 +7,10 @@ public class Conexion {
 	private Localidad origen;
 	private Localidad destino;
 	private Double km;
-	
+	/*DATOS CONSTANTES, A FUTURO DEBERIA DE SETEARLO EL USUARIO MANAGER 
+	A TRAVES DE LA GUI*/
 	private final Double COSTO_POR_KM = 20000.00;
     private final Double SOBRECOSTO_PROVINCIA_DISTINTA = 50000.00;
-	
 	
 	public Conexion(Localidad origen, Localidad destino, Double km) {
 		this.origen = origen;
@@ -25,7 +25,6 @@ public class Conexion {
     public Localidad getDestino() {
         return destino;
     }
-    
     
     public Double getKm() {
 		return km;
@@ -51,7 +50,7 @@ public class Conexion {
 	    }
 	    return costo;
 	}
-	
+	//Se sobreescriben los metodos equals y hashcode para poder hacer comparaciones correctamente.
 	@Override
 	public boolean equals(Object obj) {
 	    if (this == obj) return true;
@@ -65,6 +64,7 @@ public class Conexion {
 	public int hashCode() {
 	    return origen.hashCode() + destino.hashCode();
 	}
+	
 	@Override
     public String toString() {
         return origen.getNombre() + " - " + destino.getNombre();

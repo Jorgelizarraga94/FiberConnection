@@ -10,19 +10,19 @@ public class ControladoraLogica {
 	public void saveLocalidad(Double latitud, Double longitud, String palabra, String localidadNombre) {
 		Localidad localidad = new Localidad(latitud, longitud, palabra, localidadNombre);
 		
-		controladoraPersistencia.guardarLocalidad(localidad);
+		controladoraPersistencia.createLocalidad(localidad);
 	}
 	
 	public List<String> getLocalidades() {
-		return controladoraPersistencia.traerLocalidades();
+		return controladoraPersistencia.findAllLocalidades();
 	}
 	
 	public String GetlocalidadNombre(int id) {
-		return controladoraPersistencia.getLocalidad(id);
+		return controladoraPersistencia.findLocalidad(id);
 	}
 	
 	public void deleteSeleccionado(int seleccionado) {
-		controladoraPersistencia.eliminarSeleccionado(seleccionado);
+		controladoraPersistencia.deleteLocalidadSeleccionada(seleccionado);
 	}
 	public Localidad convertirListaAobjetoLocalidad(String linea){
 		String[] partes = linea.split(",");

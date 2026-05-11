@@ -21,7 +21,7 @@ public class ControladoraPersistencia {
     }
 
     // ================== GUARDAR ==================
-    public void guardarLocalidad(Localidad localidad) {
+    public void createLocalidad(Localidad localidad) {
         File archivo = getArchivo();
 
         try (FileWriter fw = new FileWriter(archivo, true)) {
@@ -32,8 +32,8 @@ public class ControladoraPersistencia {
         }
     }
 
-    // ================== LEER ==================
-    public List<String> traerLocalidades() {
+    // ================== BUSCAR LOCALIDADES ==================
+    public List<String> findAllLocalidades() {
         List<String> lista = new ArrayList<>();
         File archivo = getArchivo();
         try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
@@ -47,22 +47,24 @@ public class ControladoraPersistencia {
         }
         return lista;
     }
-    public void eliminarSeleccionado(int selectedRow) {
+    //=================== ELIMINAR SELECCIONADO =====================
+    public void deleteLocalidadSeleccionada(int seleccionada) {
         File archivo = getArchivo();
         List<String> lineasRestantes = new ArrayList<>();
         try {
             List<String> todasLasLineas = Files.readAllLines(archivo.toPath());
-            if (selectedRow >= 0 && selectedRow < todasLasLineas.size()) {
-                todasLasLineas.remove(selectedRow);
+            if (seleccionada >= 0 && seleccionada < todasLasLineas.size()) {
+                todasLasLineas.remove(seleccionada);
                 Files.write(archivo.toPath(), todasLasLineas, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-	public String getLocalidad(int id) {
-		List<String> localidadStrings = traerLocalidades();
-		String localidadNombre = localidadStrings.get(id);
+    //==================== BUSCAR LOCALIDAD POR INDICE =========================
+	public String findLocalidad(int indice) {
+		List<String> localidadStrings = findAllLocalidades();
+		String localidadNombre = localidadStrings.get(indice);
 		return localidadNombre;
 	}
 }

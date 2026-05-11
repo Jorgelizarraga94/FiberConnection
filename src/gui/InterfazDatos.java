@@ -38,18 +38,23 @@ import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
 public class InterfazDatos extends JFrame {
+	
 	private FiberConnection fiberConnection;
 	private LogicaMapa logicaMapa;
 	private JMapViewer mapaLocalidadesJMapViewer;
 	private JTable table;
 	private ControladoraLogica controlLogica = new ControladoraLogica();
+	private InterfazMapa interfazMapa;
+	
 	public InterfazDatos(JMapViewer mapa, FiberConnection fiberConnection, LogicaMapa logicaMapa) {
 		this.logicaMapa = logicaMapa;
 		this.fiberConnection = fiberConnection;
 		this.mapaLocalidadesJMapViewer = mapa;
 		initialize();
 	}
+	
 	private void initialize() {
+		//Instancia de Objetos de la interfaz
 		JButton btnEliminar = new JButton("Eliminar");
 		JPanel panel_1 = new JPanel();
 		JScrollPane scrollPane = new JScrollPane();
@@ -62,25 +67,27 @@ public class InterfazDatos extends JFrame {
 		JTextArea textAreaCostoTotal = new JTextArea();
 		JLabel lblCostoTotal = new JLabel("COSTO TOTAL");
 		JTextArea textAreaKmTotales = new JTextArea();
-		textAreaKmTotales.setEditable(false);
-		textAreaKmTotales.setAutoscrolls(false);
 		JPanel panel_4 = new JPanel();
+		
+		interfazMapa = new InterfazMapa(mapaLocalidadesJMapViewer);
+		
+		//Configuración diseño frame
 		this.setBounds(100, 100, 1366, 768);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(null);
-		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		panel_1.setBounds(26, 21, 1110, 248);
-		getContentPane().add(panel_1);
-		panel_1.setLayout(null);
+				
 		scrollPane.setBounds(10, 11, 1072, 226);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		panel_1.add(scrollPane);
+		
+		//Tabla
 		table = new JTable();
 		table.setDefaultEditor(Object.class, null);
 		table.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "Latitud", "Longitud", "Provincia", "Localidad" }));
+		
 		scrollPane.setViewportView(table);
+		
 		List<String> datos = controlLogica.getLocalidades();
 		String[][] datosLocalidades = new String[datos.size()][4];
 		for (int i = 0; i < datos.size(); i++) {
@@ -91,42 +98,64 @@ public class InterfazDatos extends JFrame {
 			datosLocalidades[i][3] = partes[3];
 		}
 		cargarTabla(datosLocalidades);
-		panel_2.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
-		panel_2.setBounds(1161, 21, 122, 248);
-		getContentPane().add(panel_2);
-		panel_2.setLayout(null);
+		
+		//Panel
 		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
 		panel.setBounds(36, 311, 1243, 366);
 		getContentPane().add(panel);
 		panel.setLayout(null);
+		//Panel 1
+		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		panel_1.setBounds(26, 21, 1110, 248);
+		getContentPane().add(panel_1);
+		panel_1.setLayout(null);
+		//Panel 2
+		panel_2.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
+		panel_2.setBounds(1161, 21, 122, 248);
+		getContentPane().add(panel_2);
+		panel_2.setLayout(null);
+		//Panel 3
 		panel_3.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
 		panel_3.setBounds(10, 11, 270, 344);
-		panel.add(panel_3);
 		panel_3.setLayout(null);
-		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-		btnCalcularCosto.setBounds(27, 72, 220, 33);
-		panel_3.add(btnCalcularCosto);
+		//Panel 4
+		panel_4.setBounds(290, 11, 931, 344);
+		panel_4.setLayout(new BorderLayout(0, 0));
+		
+		//Diseño textAreaKmTotales	
 		textAreaKmTotales.setCaretColor(new Color(255, 255, 255));
 		textAreaKmTotales.setBorder(new LineBorder(new Color(0, 0, 0)));
 		textAreaKmTotales.setBackground(new Color(255, 255, 255));
 		textAreaKmTotales.setBounds(140, 128, 107, 25);
-		panel_3.add(textAreaKmTotales);
-		lblKmTotalesConexion.setBounds(30, 132, 101, 14);
-		panel_3.add(lblKmTotalesConexion);
+		textAreaKmTotales.setEditable(false);
+		textAreaKmTotales.setAutoscrolls(false);
+		
+		//Diseño textAreaCostoTotal
 		textAreaCostoTotal.setEditable(false);
 		textAreaCostoTotal.setCaretColor(Color.WHITE);
 		textAreaCostoTotal.setBorder(new LineBorder(new Color(0, 0, 0)));
 		textAreaCostoTotal.setBackground(Color.WHITE);
 		textAreaCostoTotal.setAutoscrolls(false);
 		textAreaCostoTotal.setBounds(114, 171, 133, 25);
-		panel_3.add(textAreaCostoTotal);
-		lblCostoTotal.setBounds(27, 175, 82, 14);
-		panel_3.add(lblCostoTotal);
-		panel_4.setBounds(290, 11, 931, 344);
+		
+		lblCostoTotal.setBounds(27, 175, 82, 14);	
+		lblKmTotalesConexion.setBounds(30, 132, 101, 14);
+		
+		//Agregados a paneles
 		panel.add(panel_4);
-		panel_4.setLayout(new BorderLayout(0, 0));
-		InterfazMapa interfazMapa = new InterfazMapa(mapaLocalidadesJMapViewer);
+		panel.add(panel_3);
+		panel_1.add(scrollPane);
+		panel_2.add(btnAgregar);
+		panel_2.add(btnEliminar);
+		panel_3.add(textAreaCostoTotal);
+		panel_3.add(lblKmTotalesConexion);
+		panel_3.add(btnCalcularCosto);
+		panel_3.add(textAreaKmTotales);
+		panel_3.add(lblCostoTotal);
 		panel_4.add(interfazMapa, BorderLayout.CENTER);
+		
+		//ActionListener Boton Agregar
+		btnAgregar.setBounds(10, 11, 102, 34);
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				InterfazAgregarLocalidad interfazAgregarLocalidad = new InterfazAgregarLocalidad(
@@ -134,8 +163,9 @@ public class InterfazDatos extends JFrame {
 				interfazAgregarLocalidad.setVisible(true);
 			}
 		});
-		btnAgregar.setBounds(10, 11, 102, 34);
-		panel_2.add(btnAgregar);
+		
+		//ActionListener Eliminar	
+		btnEliminar.setBounds(10, 61, 102, 34);
 		btnEliminar.setEnabled(false);
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -149,6 +179,7 @@ public class InterfazDatos extends JFrame {
 				}
 			}
 		});
+		
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -158,8 +189,9 @@ public class InterfazDatos extends JFrame {
 				}
 			}
 		});
-		btnEliminar.setBounds(10, 61, 102, 34);
-		panel_2.add(btnEliminar);
+		
+		//ActionListener Boton Calcular Costo
+		btnCalcularCosto.setBounds(27, 72, 220, 33);
 		btnCalcularCosto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AlgoritmoAGM agm = new AlgoritmoAGM();
@@ -170,6 +202,9 @@ public class InterfazDatos extends JFrame {
 			}
 		});
 	}
+	
+	/////////////////////////////////////////////FUNCIONES////////////////////////////////////////////
+	
 	public void cargarTabla(String[][] localidades) {
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 		modelo.setRowCount(0);
@@ -177,6 +212,7 @@ public class InterfazDatos extends JFrame {
 			modelo.addRow(new Object[] { fila[0], fila[1], fila[2], fila[3] });
 		}
 	}
+	
 	public void refrescarTabla() {
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 		modelo.setRowCount(0);
@@ -186,6 +222,7 @@ public class InterfazDatos extends JFrame {
 			modelo.addRow(new Object[] { campos[0], campos[1], campos[2], campos[3] });
 		}
 	}
+	
 	public void inicializarDatos() {
 		List<String> localidadesLista = controlLogica.getLocalidades();
 		for (String linea : localidadesLista) {

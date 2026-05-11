@@ -42,33 +42,20 @@ public class Grafo {
         }
     }
 
-    public int obtenerPeso(Localidad l1, Localidad l2) {
-        return obtenerConexiones(l1).stream().filter(c -> c.getOrigen().equals(l2) || c.getDestino().equals(l2)).map(c -> c.getKm().intValue()).findFirst().orElse(0);
+    public int obtenerPeso(Localidad localidad1, Localidad localidad2) {
+        return obtenerConexiones(localidad1).stream().filter(c -> c.getOrigen().equals(localidad2) || c.getDestino().equals(localidad2)).map(c -> c.getKm().intValue()).findFirst().orElse(0);
     }
 
-    public void eliminarConexion(Localidad l1, Localidad l2) {
-        if (adyacencias.containsKey(l1)) 
-            adyacencias.get(l1).removeIf(c -> c.getOrigen().equals(l2) || c.getDestino().equals(l2));
-        if (adyacencias.containsKey(l2)) 
-            adyacencias.get(l2).removeIf(c -> c.getOrigen().equals(l1) || c.getDestino().equals(l1));
+    public void eliminarConexion(Localidad localidad1, Localidad localidad2) {
+        if (adyacencias.containsKey(localidad1)) 
+            adyacencias.get(localidad1).removeIf(c -> c.getOrigen().equals(localidad2) || c.getDestino().equals(localidad2));
+        if (adyacencias.containsKey(localidad2)) 
+            adyacencias.get(localidad2).removeIf(c -> c.getOrigen().equals(localidad1) || c.getDestino().equals(localidad1));
     }
 
     public void arbolMinimoPrim() {
-        AlgoritmoAGM alg = new AlgoritmoAGM();
-        Grafo agm = alg.generarAGM(this);
+        AlgoritmoAGM algotirmoAgm = new AlgoritmoAGM();
+        Grafo agm = algotirmoAgm.generarAGM(this);
         this.adyacencias = agm.getAdyacencias();
-    }
-
-    public String resultadoMatriz() {
-        StringBuilder sb = new StringBuilder();
-        List<Localidad> locs = obtenerLocalidades();
-        for (int i = 0; i < locs.size(); i++) {
-            Localidad origen = locs.get(i);
-            for (Conexion c : obtenerConexiones(origen)) {
-                Localidad destino = c.getOrigen().equals(origen) ? c.getDestino() : c.getOrigen();
-                sb.append("Punto: ").append(i + 1).append(" al Punto: ").append(locs.indexOf(destino) + 1).append(" Distancia de: ").append(c.getKm()).append("\n");
-            }
-        }
-        return sb.toString();
     }
 }

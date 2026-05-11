@@ -12,15 +12,19 @@ import java.awt.BorderLayout;
 public class InterfazMapa extends JPanel {
 	private JFrame frame;
 	private JMapViewer mapa;
+	private List<Localidad> localidades;
+	
+	//Constructor
 	public InterfazMapa(JMapViewer mapa) {
 		this.mapa = mapa;
 		initialize();
 	}
-	private List<Localidad> localidades;
+	
     public InterfazMapa(List<Localidad> localidades) {
         this.localidades = localidades;
         initialize();
     }
+    
 	private void initialize() {
         setLayout(new BorderLayout());
         if (mapa == null) {
@@ -31,7 +35,9 @@ public class InterfazMapa extends JPanel {
         repaint();
       	Coordinate coordenada = new Coordinate(-31.40628337 , -64.19526712); 
       	mapa.setDisplayPosition(coordenada, 4);
+      	mapa.setZoomContolsVisible(false);
 	}
+	
 	public JMapViewer getMapa() {
         return mapa;
     }
