@@ -106,6 +106,7 @@ public class InterfazAgregarLocalidad extends JFrame {
 					double longit = Double.parseDouble(longitud.getText());
 					fiberConnection.construirGrafo(new Localidad(latit, longit, provincia, nombre));
 					cargarTabla(fiberConnection.getGrafo().obtenerLocalidades().get(0));
+					controladoraLogica.saveLocalidad(longit, latit, provincia, nombre);
 					interfazDatos.refrescarTabla();
 					interfazDatos.inicializarDatos();
 					logicaMapa.actualizarMapa(fiberConnection.getGrafo(), mapaLocalidadesJMapViewer);
