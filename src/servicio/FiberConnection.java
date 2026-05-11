@@ -22,8 +22,6 @@ public class FiberConnection {
     private Grafo grafo;
 	private static Grafo grafoTest;
 	
-	private ControladoraLogica controlLogica = new ControladoraLogica();
-	
     public FiberConnection() {
         this.grafo = new Grafo();
         this.grafoTest = new Grafo(); 
