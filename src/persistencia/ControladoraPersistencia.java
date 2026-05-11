@@ -35,12 +35,9 @@ public class ControladoraPersistencia {
     // ================== LEER ==================
     public List<String> traerLocalidades() {
         List<String> lista = new ArrayList<>();
-
         File archivo = getArchivo();
-
         try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
             String linea;
-
             while ((linea = br.readLine()) != null) {
                 lista.add(linea);
             }
@@ -48,31 +45,21 @@ public class ControladoraPersistencia {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return lista;
     }
-
     public void eliminarSeleccionado(int selectedRow) {
         File archivo = getArchivo();
         List<String> lineasRestantes = new ArrayList<>();
-
         try {
-            // 1. Leer todas las líneas del archivo
             List<String> todasLasLineas = Files.readAllLines(archivo.toPath());
-
-            // 2. Validar que el índice sea correcto
             if (selectedRow >= 0 && selectedRow < todasLasLineas.size()) {
-                // Removemos la línea que coincide con la fila seleccionada
                 todasLasLineas.remove(selectedRow);
-                
-                // 3. Sobreescribir el archivo con la lista actualizada
                 Files.write(archivo.toPath(), todasLasLineas, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 	public String getLocalidad(int id) {
 		List<String> localidadStrings = traerLocalidades();
 		String localidadNombre = localidadStrings.get(id);

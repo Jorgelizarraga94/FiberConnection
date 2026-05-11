@@ -57,15 +57,12 @@ public class Conexion {
 	    if (this == obj) return true;
 	    if (obj == null || getClass() != obj.getClass()) return false;
 	    Conexion otra = (Conexion) obj;
-	    
-	    // Es la misma conexión si (A==A y B==B) O (A==B y B==A)
 	    return (origen.equals(otra.origen) && destino.equals(otra.destino)) ||
 	           (origen.equals(otra.destino) && destino.equals(otra.origen));
 	}
 
 	@Override
 	public int hashCode() {
-	    // Sumamos los hashCodes para que el orden no altere el resultado
 	    return origen.hashCode() + destino.hashCode();
 	}
 	@Override

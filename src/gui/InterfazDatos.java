@@ -43,17 +43,13 @@ public class InterfazDatos extends JFrame {
 	private JMapViewer mapaLocalidadesJMapViewer;
 	private JTable table;
 	private ControladoraLogica controlLogica = new ControladoraLogica();
-
 	public InterfazDatos(JMapViewer mapa, FiberConnection fiberConnection, LogicaMapa logicaMapa) {
-
 		this.logicaMapa = logicaMapa;
 		this.fiberConnection = fiberConnection;
 		this.mapaLocalidadesJMapViewer = mapa;
 		initialize();
 	}
-
 	private void initialize() {
-
 		JButton btnEliminar = new JButton("Eliminar");
 		JPanel panel_1 = new JPanel();
 		JScrollPane scrollPane = new JScrollPane();
@@ -69,29 +65,22 @@ public class InterfazDatos extends JFrame {
 		textAreaKmTotales.setEditable(false);
 		textAreaKmTotales.setAutoscrolls(false);
 		JPanel panel_4 = new JPanel();
-
 		this.setBounds(100, 100, 1366, 768);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(null);
-
 		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		panel_1.setBounds(26, 21, 1110, 248);
 		getContentPane().add(panel_1);
 		panel_1.setLayout(null);
-
 		scrollPane.setBounds(10, 11, 1072, 226);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		panel_1.add(scrollPane);
-
 		table = new JTable();
-		// Evita que las celdas sean editables
 		table.setDefaultEditor(Object.class, null);
-
 		table.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "Latitud", "Longitud", "Provincia", "Localidad" }));
 		scrollPane.setViewportView(table);
-
 		List<String> datos = controlLogica.getLocalidades();
 		String[][] datosLocalidades = new String[datos.size()][4];
 		for (int i = 0; i < datos.size(); i++) {
@@ -102,35 +91,28 @@ public class InterfazDatos extends JFrame {
 			datosLocalidades[i][3] = partes[3];
 		}
 		cargarTabla(datosLocalidades);
-
 		panel_2.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
 		panel_2.setBounds(1161, 21, 122, 248);
 		getContentPane().add(panel_2);
 		panel_2.setLayout(null);
-
 		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
 		panel.setBounds(36, 311, 1243, 366);
 		getContentPane().add(panel);
 		panel.setLayout(null);
-
 		panel_3.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
 		panel_3.setBounds(10, 11, 270, 344);
 		panel.add(panel_3);
 		panel_3.setLayout(null);
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-
 		btnCalcularCosto.setBounds(27, 72, 220, 33);
 		panel_3.add(btnCalcularCosto);
-
 		textAreaKmTotales.setCaretColor(new Color(255, 255, 255));
 		textAreaKmTotales.setBorder(new LineBorder(new Color(0, 0, 0)));
 		textAreaKmTotales.setBackground(new Color(255, 255, 255));
 		textAreaKmTotales.setBounds(140, 128, 107, 25);
 		panel_3.add(textAreaKmTotales);
-
 		lblKmTotalesConexion.setBounds(30, 132, 101, 14);
 		panel_3.add(lblKmTotalesConexion);
-
 		textAreaCostoTotal.setEditable(false);
 		textAreaCostoTotal.setCaretColor(Color.WHITE);
 		textAreaCostoTotal.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -138,18 +120,13 @@ public class InterfazDatos extends JFrame {
 		textAreaCostoTotal.setAutoscrolls(false);
 		textAreaCostoTotal.setBounds(114, 171, 133, 25);
 		panel_3.add(textAreaCostoTotal);
-
 		lblCostoTotal.setBounds(27, 175, 82, 14);
 		panel_3.add(lblCostoTotal);
-
 		panel_4.setBounds(290, 11, 931, 344);
 		panel.add(panel_4);
 		panel_4.setLayout(new BorderLayout(0, 0));
-
 		InterfazMapa interfazMapa = new InterfazMapa(mapaLocalidadesJMapViewer);
 		panel_4.add(interfazMapa, BorderLayout.CENTER);
-
-		// Boton Agregar
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				InterfazAgregarLocalidad interfazAgregarLocalidad = new InterfazAgregarLocalidad(
@@ -157,33 +134,21 @@ public class InterfazDatos extends JFrame {
 				interfazAgregarLocalidad.setVisible(true);
 			}
 		});
-
 		btnAgregar.setBounds(10, 11, 102, 34);
 		panel_2.add(btnAgregar);
-
-		// Boton Eliminar
 		btnEliminar.setEnabled(false);
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int filaSeleccionada = table.getSelectedRow();
 				if (filaSeleccionada != -1) {
-					// 1. Borra físicamente del .txt y de la lista lógica
 					controlLogica.deleteSeleccionado(filaSeleccionada);
-
-					// 2. Limpia el Grafo en memoria para que coincida con el disco
-					// Es vital que fiberConnection también pierda ese nodo
 					fiberConnection.eliminarLocalidadGrafo(filaSeleccionada);
-
-					// 3. Refresca la tabla (Vista)
 					refrescarTabla();
-
 					logicaMapa.actualizarMapa(fiberConnection.getGrafo(), mapaLocalidadesJMapViewer);
-
 					JOptionPane.showMessageDialog(null, "Eliminado con éxito.");
 				}
 			}
 		});
-
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -192,27 +157,19 @@ public class InterfazDatos extends JFrame {
 					btnEliminar.setEnabled(true);
 				}
 			}
-
 		});
-
 		btnEliminar.setBounds(10, 61, 102, 34);
 		panel_2.add(btnEliminar);
-
-		// Boton Calcular Costo
-
 		btnCalcularCosto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AlgoritmoAGM agm = new AlgoritmoAGM();
 				Grafo grafoAgm = agm.generarAGM(fiberConnection.getGrafo());
 				logicaMapa.dibujar(mapaLocalidadesJMapViewer, grafoAgm);
-
 				textAreaKmTotales.setText(String.format("%.2f", fiberConnection.calcularKmTotales(grafoAgm)) + " KM");
 				textAreaCostoTotal.setText("$" + String.format("%.2f", fiberConnection.calcularPresupuesto(grafoAgm)));
 			}
 		});
-
 	}
-
 	public void cargarTabla(String[][] localidades) {
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 		modelo.setRowCount(0);
@@ -220,24 +177,17 @@ public class InterfazDatos extends JFrame {
 			modelo.addRow(new Object[] { fila[0], fila[1], fila[2], fila[3] });
 		}
 	}
-
 	public void refrescarTabla() {
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 		modelo.setRowCount(0);
-
 		List<String> datosNuevos = controlLogica.getLocalidades();
-
 		for (String linea : datosNuevos) {
 			String[] campos = linea.split(",");
 			modelo.addRow(new Object[] { campos[0], campos[1], campos[2], campos[3] });
 		}
 	}
-
 	public void inicializarDatos() {
-		// 1. Obtenemos los datos de la BD
 		List<String> localidadesLista = controlLogica.getLocalidades();
-		// 2. Recorremos la lista de String, la transformamos en Objeto Localidad y
-		// agregamos las localidades al grafo
 		for (String linea : localidadesLista) {
 			Localidad loc = controlLogica.convertirListaAobjetoLocalidad(linea);
 			fiberConnection.construirGrafo(loc);

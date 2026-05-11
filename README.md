@@ -3,4 +3,3 @@
 En este caso, se termina decidiendo que FiberConnection actuará como la clase Principal que se encarga de toda las llamadas y lógica de control para el resto de clases.
 Grafo se encargará de recibir la información por usuario y comunicarse con Localidad (Nodo) y Conexión (Arista) para construir finalmente un grafo. 
 AGM recibirá la información del grafo (y la del planificador de ser necesario por cuentas de peso), para finalmente contruir el camino mínimo y devolverlo al planificador para así calcular los costos. 
-<img width="1762" height="719" alt="PrtScr capture_63" src="https://github.com/user-attachments/assets/dd5be2a5-54c5-48e0-b722-fa77ae1a436d" />
