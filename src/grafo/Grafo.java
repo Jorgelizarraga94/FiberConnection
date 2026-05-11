@@ -57,5 +57,5 @@ public class Grafo {
         AlgoritmoAGM algotirmoAgm = new AlgoritmoAGM();
         Grafo agm = algotirmoAgm.generarAGM(this);
         this.adyacencias = agm.getAdyacencias();
-    }
+    } 
 }

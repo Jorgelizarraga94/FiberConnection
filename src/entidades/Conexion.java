@@ -12,36 +12,6 @@ public class Conexion {
 	private final Double COSTO_POR_KM = 20000.00;
     private final Double SOBRECOSTO_PROVINCIA_DISTINTA = 50000.00;
 	
-	public Conexion(Localidad origen, Localidad destino, Double km) {
-		this.origen = origen;
-		this.destino = destino;
-		this.km = km;
-	}
-	
-	public Localidad getOrigen() {
-        return origen;
-    }
-
-    public Localidad getDestino() {
-        return destino;
-    }
-    
-    public Double getKm() {
-		return km;
-	}
-
-	public void setKm(Double km) {
-		this.km = km;
-	}
-
-	public Coordinate getCoordenadasOrigen() {
-    	return origen.getCordenadasLocalidad();
-    }
-    
-    public Coordinate getCoordenadasDestino() {
-    	return destino.getCordenadasLocalidad();
-    }
-
 	public double getCostoBaseConexion() {
 	    double costo = this.km * COSTO_POR_KM;
 	    
@@ -69,5 +39,37 @@ public class Conexion {
     public String toString() {
         return origen.getNombre() + " - " + destino.getNombre();
     }
+	public Conexion(Localidad origen, Localidad destino, Double km) {
+		this.origen = origen;
+		this.destino = destino;
+		this.km = km;
+	}
+	
+	
+	
+	public Localidad getOrigen() {
+        return origen;
+    }
+
+    public Localidad getDestino() {
+        return destino;
+    }
+    
+    public Double getKm() {
+		return km;
+	}
+
+	public void setKm(Double km) {
+		this.km = km;
+	}
+
+	public Coordinate getCoordenadasOrigen() {
+    	return origen.getCordenadasLocalidad();
+    }
+    
+    public Coordinate getCoordenadasDestino() {
+    	return destino.getCordenadasLocalidad();
+    }
+	
 
 }
