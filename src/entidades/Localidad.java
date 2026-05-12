@@ -76,13 +76,13 @@ public class Localidad {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Localidad)) return false;
         Localidad that = (Localidad) o;
-        return Objects.equals(nombreLocalidad, that.nombreLocalidad) &&
-               Objects.equals(provincia, that.provincia);
+        return Objects.equals(nombreLocalidad, that.nombreLocalidad);
     }
+
     @Override
     public int hashCode() {
-        return Objects.hash(nombreLocalidad, provincia);
+        return Objects.hash(nombreLocalidad);
     }
 }

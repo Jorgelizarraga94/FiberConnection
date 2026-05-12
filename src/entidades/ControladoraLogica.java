@@ -17,7 +17,7 @@ public class ControladoraLogica {
 		return controladoraPersistencia.findAllLocalidades();
 	}
 	
-	public String GetlocalidadNombre(int id) {
+	public String Getlocalidad(int id) {
 		return controladoraPersistencia.findLocalidad(id);
 	}
 	

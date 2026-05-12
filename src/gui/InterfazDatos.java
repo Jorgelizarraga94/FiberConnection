@@ -171,8 +171,9 @@ public class InterfazDatos extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int filaSeleccionada = table.getSelectedRow();
 				if (filaSeleccionada != -1) {
+					Localidad localidad = controlLogica.convertirListaAobjetoLocalidad(controlLogica.Getlocalidad(filaSeleccionada));
 					controlLogica.deleteSeleccionado(filaSeleccionada);
-					fiberConnection.eliminarLocalidadGrafo(filaSeleccionada);
+					fiberConnection.eliminarLocalidadGrafo(localidad);
 					refrescarTabla();
 					logicaMapa.actualizarMapa(fiberConnection.getGrafo(), mapaLocalidadesJMapViewer);
 					JOptionPane.showMessageDialog(null, "Eliminado con éxito.");
@@ -196,7 +197,7 @@ public class InterfazDatos extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				AlgoritmoAGM agm = new AlgoritmoAGM();
 				Grafo grafoAgm = agm.generarAGM(fiberConnection.getGrafo());
-				logicaMapa.dibujar(mapaLocalidadesJMapViewer, grafoAgm);
+				logicaMapa.actualizarMapa(grafoAgm, mapaLocalidadesJMapViewer);
 				textAreaKmTotales.setText(String.format("%.2f", fiberConnection.calcularKmTotales(grafoAgm)) + " KM");
 				textAreaCostoTotal.setText("$" + String.format("%.2f", fiberConnection.calcularPresupuesto(grafoAgm)));
 			}

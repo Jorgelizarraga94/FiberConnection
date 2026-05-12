@@ -42,15 +42,28 @@ public class FiberConnection {
         }
     }
     
-    public void eliminarLocalidadGrafo(int indice) {
-        List<Localidad> localidades = new ArrayList<>(grafo.getAdyacencias().keySet());
-        if (indice >= 0 && indice < localidades.size()) {
-            Localidad localidadAEliminar = localidades.get(indice);
-            grafo.getAdyacencias().remove(localidadAEliminar);
-            
-    	}
-    }
+    public void eliminarLocalidadGrafo(Localidad localidad) {
+    	Localidad encontrada = null;
+        
+        for (Localidad loc : grafo.getAdyacencias().keySet()) {
+            if (loc.getNombre().equalsIgnoreCase(localidad.getNombre())) {
+                encontrada = loc;
+                break;
+            }
+        }
 
+        if (encontrada != null) {
+            final Localidad instanciaFinal = encontrada;
+            grafo.getAdyacencias().remove(instanciaFinal);
+            for (List<Conexion> conexiones : grafo.getAdyacencias().values()) {
+                conexiones.removeIf(c -> 
+                    c.getDestino().getNombre().equalsIgnoreCase(instanciaFinal.getNombre()) || 
+                    c.getOrigen().getNombre().equalsIgnoreCase(instanciaFinal.getNombre())
+                );
+            }
+        }
+    }
+    
     public List<Conexion> obtenerTodasLasConexiones() {
 
         List<Conexion> todas = new ArrayList<>();
