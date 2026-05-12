@@ -94,26 +94,8 @@ public class FiberConnection {
         return costoBaseTotal;
     }
     
-    public List<Localidad> obtenerLocalidades() {
-        return new ArrayList<>(grafo.getAdyacencias().keySet());
-    }
     
-	public static boolean estaConectado(Coordinate coordenada1, Coordinate coordenada2) {
-		boolean conectado = false;
-		return conectado;
-	}
-	
-	public static boolean verificarDistintosTamanios(Grafo grafo) {
-		boolean tamanioCorrecto = false;
-		return tamanioCorrecto;
-	}
-	
-	public static boolean verificarNodoLocalidad(Grafo grafo) {
-		boolean nodoCorrecto = false;
-		return nodoCorrecto;
-	}
 
-	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// 
 /// 
