@@ -100,8 +100,16 @@ public class InterfazAgregarLocalidad extends JFrame {
 		btnAgregarLocalidad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String nombre = nombreLocalidad.getText();
-					String provincia = prov.getText();
+					if (nombreLocalidad.getText().trim().isEmpty() || prov.getText().trim().isEmpty()) {
+                        // Muestra un mensaje de error si está en blanco
+                        JOptionPane.showMessageDialog(null, 
+                            "La localidad o la casilla de provincia no pueden estar en blanco.", 
+                            "Error", 
+                            JOptionPane.ERROR_MESSAGE);
+                            throw new RuntimeException("La localidad o la casilla de provincia no pueden estar en blanco.");
+                    }
+					String nombre = nombreLocalidad.getText().toUpperCase();
+					String provincia = prov.getText().toUpperCase();
 					double latit = Double.parseDouble(latitud.getText());
 					double longit = Double.parseDouble(longitud.getText());
 					fiberConnection.construirGrafo(new Localidad(latit, longit, provincia, nombre));

@@ -16,7 +16,9 @@ public class LogicaMapa {
 	    for (Localidad loc : grafo.getAdyacencias().keySet()) {
 	        Coordinate coord = new Coordinate(loc.getLatitud(), loc.getLongitud());
 	        MapMarkerDot marcador = new MapMarkerDot(loc.getNombre(), coord);
+	        marcador.getStyle().setBackColor(Color.red);
 	        mapa.addMapMarker(marcador);
+	        
 	        
 	        for (Conexion con : grafo.obtenerConexiones(loc)) {
 	            Localidad destino = con.getDestino();
@@ -24,6 +26,25 @@ public class LogicaMapa {
 	            List<Coordinate> puntos = Arrays.asList(coord, coordDestino, coordDestino);
 	            MapPolygonImpl linea = new MapPolygonImpl(puntos);
 	            mapa.addMapPolygon(linea);
+	            
+	            double kmTotales = con.getKm();
+		        double factorRecargo = (kmTotales > 300) ? 1.10 : 1.0;
+	            
+	            if (loc.getNombre().compareTo(destino.getNombre()) < 0) {
+	                
+	                double latMedia = (loc.getLatitud() + destino.getLatitud()) / 2;
+	                double lonMedia = (loc.getLongitud() + destino.getLongitud()) / 2; 
+	                Coordinate puntoMedio = new Coordinate(latMedia, lonMedia);
+
+	                double costoIndividualCompleto = con.getCostoBaseConexion() * factorRecargo;
+	                costoIndividualCompleto /= kmTotales;
+	                String textoCosto = String.format("$%,.2f x km", costoIndividualCompleto);
+	                MapMarkerDot etiquetaKm = new MapMarkerDot(textoCosto, puntoMedio);
+	                
+	                etiquetaKm.getStyle().setBackColor(new Color(0, 0, 0, 0));
+	                etiquetaKm.getStyle().setColor(null);
+	                mapa.addMapMarker(etiquetaKm);
+	            } 
 	        }
 	    }
 	}

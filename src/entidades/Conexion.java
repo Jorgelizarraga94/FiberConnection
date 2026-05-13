@@ -70,6 +70,12 @@ public class Conexion {
     public Coordinate getCoordenadasDestino() {
     	return destino.getCordenadasLocalidad();
     }
+	public Double getCOSTO_POR_KM() {
+		return COSTO_POR_KM;
+	}
+	public Double getSOBRECOSTO_PROVINCIA_DISTINTA() {
+		return SOBRECOSTO_PROVINCIA_DISTINTA;
+	}
 	
 
 }

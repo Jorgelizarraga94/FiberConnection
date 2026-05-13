@@ -170,4 +170,19 @@ public class FiberConnection {
         }
         return grafoTest.obtenerLocalidades();
     }
+    
+	public String calcularPorcentajeMayorA300km() {
+		if(calcularKmTotales(grafo)>300){
+			return "10%";
+		}
+		return "0%";
+	}
+	
+	public String hayProvinciasDistintas(){
+		Conexion conexion = new Conexion(null, null, null);
+		if(grafo.provinciasDistintas()) {
+			return "$" + conexion.getSOBRECOSTO_PROVINCIA_DISTINTA().toString();
+		}
+		return "$0";
+	}
 }

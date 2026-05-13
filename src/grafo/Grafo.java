@@ -31,6 +31,7 @@ public class Grafo {
     }
 
     public void agregarConexion(Localidad localidadA, Localidad localidadB, Double km) {
+    	
         if (localidadA == null || localidadB == null) return;
         Conexion nuevaConexion = new Conexion(localidadA, localidadB, km);
         adyacencias.putIfAbsent(localidadA, new ArrayList<>());
@@ -42,6 +43,18 @@ public class Grafo {
         }
     }
 
+    public boolean provinciasDistintas() {
+    	for (Localidad localidades : adyacencias.keySet()) {
+    		for (Localidad localidad : adyacencias.keySet()) {
+    			if(!(localidades.getProvincia().equals(localidad.getProvincia()))) {
+    	    		return true;
+    	    	}
+    		}
+		}
+    	return false;
+    }
+   
+    
     public int obtenerPeso(Localidad localidad1, Localidad localidad2) {
         return obtenerConexiones(localidad1).stream().filter(c -> c.getOrigen().equals(localidad2) || c.getDestino().equals(localidad2)).map(c -> c.getKm().intValue()).findFirst().orElse(0);
     }
@@ -57,5 +70,6 @@ public class Grafo {
         AlgoritmoAGM algotirmoAgm = new AlgoritmoAGM();
         Grafo agm = algotirmoAgm.generarAGM(this);
         this.adyacencias = agm.getAdyacencias();
-    } 
+    }
+
 }

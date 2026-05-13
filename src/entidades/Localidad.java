@@ -12,8 +12,8 @@ public class Localidad {
     public Localidad(double latitud, double longitud, String provincia, String nombre) {
     	this.latitud = latitud;
     	this.longitud = longitud;
-        this.nombreLocalidad = nombre;
-        this.provincia = provincia;
+        this.nombreLocalidad = nombre.toUpperCase();
+        this.provincia = provincia.toUpperCase();
     }
     
 	public String getNombre() {
