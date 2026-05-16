@@ -1,6 +1,16 @@
 # Documentación: Fiber Connection
 ## Programación III — UNGS (TP2)
 
+## Desarrolladores
+Este proyecto fue desarrollado por:
+* **Lucero Juan**
+* **Dino Martin**
+* **Lizarraga Jorge**
+
+**Cátedra:** Programación 3 (Proyecto Universitario)
+
+---
+
 ## 1. Contexto del Proyecto
 Aplicación en **Java (Swing + Eclipse)** para planificar el tendido de redes de fibra óptica interprovinciales en zonas despobladas de forma eficiente, minimizando los costos de infraestructura mediante la teoría de grafos.
 
