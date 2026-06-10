@@ -1,4 +1,4 @@
-# Documentación: Fiber Connection
+#Fiber Connection
 ## Programación III — UNGS (TP2)
 
 ## Desarrolladores
