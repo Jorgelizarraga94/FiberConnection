@@ -60,3 +60,5 @@ Pruebas automatizadas en la capa de negocio aisladas de la interfaz gráfica:
 * **Test de Haversine:** Verificación de precisión del cálculo de distancias.
 * **Test de Costos:** Casos testigo para chequear el recargo de $>300\text{ km}$ y el extra interprovincial.
 * **Test del AGM:** Armado de escenarios pequeños con soluciones conocidas para asegurar que Kruskal devuelva el costo mínimo correcto y no genere ciclos.
+
+<img width="1350" height="756" alt="FiberConnection imagen" src="https://github.com/user-attachments/assets/a7f10f05-2bd1-4fea-a3ed-3e21b54857c4" />
