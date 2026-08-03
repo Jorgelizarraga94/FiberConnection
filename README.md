@@ -1,13 +1,10 @@
-#Fiber Connection
-## Programación III — UNGS (TP2)
+##Fiber Connection
 
 ## Desarrolladores
-Este proyecto fue desarrollado por:
+Este sistema fue desarrollado por:
 * **Lucero Juan**
 * **Dino Martin**
 * **Lizarraga Jorge**
-
-**Cátedra:** Programación 3 (Proyecto Universitario)
 
 ---
 
